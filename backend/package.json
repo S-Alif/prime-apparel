@@ -1,0 +1,37 @@
+{
+  "name": "prime-apparel-backend",
+  "version": "1.0.0",
+  "description": "Backend for prime apparel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/S-Alif/prime-apparel.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "node",
+    "js",
+    "express",
+    "js",
+    "mongoose",
+    "mongodb",
+    "e-commerce",
+    "website",
+    "e-commerce",
+    "backend",
+    "e",
+    "commerce",
+    "node",
+    "express"
+  ],
+  "author": "Alif",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/S-Alif/prime-apparel/issues"
+  },
+  "homepage": "https://github.com/S-Alif/prime-apparel#readme"
+}
