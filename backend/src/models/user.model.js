@@ -21,9 +21,10 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         validate: {
-            validator: (value) => /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value),
+            validator: (value) =>/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/.test(value),
             message: 'Please enter a valid email address.',
         },
+        index: true
     },
     phone: {
         typeof: String,

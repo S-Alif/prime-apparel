@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 import helmet from 'helmet'
 import hpp from 'hpp'
 import ExpressMongoSanitize from "express-mongo-sanitize"
+import errorMiddleware from "./src/middlewares/error.middleware.js"
 
 // routes
 import mainRoutes from './src/routes/main.route.js'
@@ -30,5 +31,6 @@ app.use(cookieParser())
 app.use('/api/v1/', mainRoutes)
 
 // global error handling middleware
+app.use(errorMiddleware)
 
 export {app}
