@@ -6,6 +6,7 @@ import hpp from 'hpp'
 import ExpressMongoSanitize from "express-mongo-sanitize"
 
 // routes
+import mainRoutes from './src/routes/main.route.js'
 
 
 const app = express()
@@ -26,6 +27,7 @@ app.use(cookieParser())
 
 
 // add routes
+app.use('/api/v1/', mainRoutes)
 
 // global error handling middleware
 
