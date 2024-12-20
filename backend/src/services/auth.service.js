@@ -3,6 +3,8 @@ import otpModel from '../models/otp.model.js'
 import { apiResponse } from '../helpers/apiResponse.helper.js'
 import { apiError } from '../helpers/apiError.helper.js'
 import validator, { isValidData } from '../schemas/dataValidator.schema.js' 
+import mailHelper from '../helpers/mail.helper.js'
+import { otpMail } from '../utils/mailText.util.js'
 
 
 const authService = {
@@ -49,8 +51,18 @@ const authService = {
         return new apiResponse(200, user)
     },
 
+    // send otp
     sendOtp: async (req) => {
+        let email = req?.body?.email
+        if(!email) throw new apiError(400, "No email provided")
         
+        let otpCode = Math.floor(100000 + Math.random() * 900000)
+        const createOtp = await otpModel.create({email, otpCode})
+        const user = await userModel.findOne({email: email})
+
+        let sendMail = await mailHelper(email, "Account verification", otpMail(user?._doc?.fName, user?._doc?.lName, otpCode))
+        
+        return new apiResponse(200, "OTP sent successfully")
     },
 
     verifyOtp: async (req) => {
