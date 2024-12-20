@@ -14,15 +14,16 @@ const router = express.Router()
 
 
 // routes
-router.use('/dashboard', dashboardRoutes)
-router.use('/product', productRoutes)
-router.use('/category', categoryRoutes)
-router.use('/colors', colorRoutes)
-router.use('/sizes', sizeRoutes)
-router.use('/order', orderRoutes)
-router.use('/invoice', invoiceRoutes)
-router.use('/payment', paymentRoutes)
-router.use('/reviews', reviewsRoutes)
+router
+    .use('/dashboard', dashboardRoutes)
+    .use('/product', productRoutes)
+    .use('/category', categoryRoutes)
+    .use('/colors', colorRoutes)
+    .use('/sizes', sizeRoutes)
+    .use('/order', orderRoutes)
+    .use('/invoice', invoiceRoutes)
+    .use('/payment', paymentRoutes)
+    .use('/reviews', reviewsRoutes)
 
 
 export default router
