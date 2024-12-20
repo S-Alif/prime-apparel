@@ -1,4 +1,6 @@
 import mongoose from "mongoose"
+import { encryptPassword, checkEncryptedPassword } from '../helpers/password.helper.js'
+import { issueToken } from "../helpers/token.helper.js"
 
 const userSchema = new mongoose.Schema({
     fName: {
@@ -20,10 +22,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
-        validate: {
-            validator: (value) =>/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/.test(value),
-            message: 'Please enter a valid email address.',
-        },
         index: true
     },
     phone: {
@@ -48,5 +46,20 @@ const userSchema = new mongoose.Schema({
         required: true
     }
 }, { timestamps: true, versionKey: false })
+
+
+userSchema.pre('save', async function (next) {
+    if(!this.isModified('pass')) return next()
+    this.pass = await encryptPassword(this.pass)
+    next()
+})
+
+userSchema.methods.verifyPassword = function (pass) {
+    return checkEncryptedPassword(pass, this.pass)
+}
+
+userSchema.methods.generateToken = function () {
+    return issueToken({ id: this._id, email: this.email, role: this.role })
+}
 
 export default mongoose.model("user", userSchema)

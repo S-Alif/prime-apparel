@@ -8,12 +8,7 @@ export const encryptPassword = async (password) => {
 
 export const checkEncryptedPassword = (password, encryptedPassword) => {
     try {
-        const result = bcrypt.compare(password, encryptedPassword, (error, result) => {
-            if(error) return false
-            if(result) return true
-            return false
-        })
-
+        const result = bcrypt.compare(password, encryptedPassword)
         return result
     } catch (error) {
         return false
