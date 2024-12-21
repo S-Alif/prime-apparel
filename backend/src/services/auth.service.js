@@ -27,13 +27,15 @@ const authService = {
         const validateLoginData = isValidData(validator.login, req?.body)
         if (!validateLoginData) throw new apiError(401, "Please fill all the data properly")
 
-        let user = await userModel.findOne({ email: req?.body?.email }).select("pass -_id")    
+        let user = await userModel.findOne({ email: req?.body?.email }).select("pass -_id")
         if(!user) throw new apiError(400, "Account does not exist")
+
+        let userData = await userModel.findOne({email: req?.body?.email, verified: true}).select("-pass")
+        if (!userData) throw new apiError(401, "Account is not verified")
         
-        const checkPass = user.verifyPassword(req.body.pass)
+        const checkPass = await user.verifyPassword(req.body.pass)
         if (!checkPass) throw new apiError(401, "Invalid password")
 
-        let userData = await userModel.findOne({ email: req?.body?.email }).select("-pass")
         let token = await userData.generateToken()
         userData._doc.token = token
 
@@ -59,6 +61,7 @@ const authService = {
         let otpCode = Math.floor(100000 + Math.random() * 900000)
         const createOtp = await otpModel.create({email, otpCode})
         const user = await userModel.findOne({email: email})
+        if(!user) throw new apiError(400, "Account does not exist")
 
         let sendMail = await mailHelper(email, "Account verification", otpMail(user?._doc?.fName, user?._doc?.lName, otpCode))
         
@@ -66,11 +69,46 @@ const authService = {
     },
 
     verifyOtp: async (req) => {
+        const validateData = isValidData(validator.verifyOtp, req?.body)
+        if (!validateData) throw new apiError(401, "Please fill all the data properly")            
+        
+        const checkOtp = await otpModel.findOne({ email: req.body.email, otpCode: req.body.otpCode})
+        if(checkOtp == null || !checkOtp) throw new apiError(401, "Otp expired")
 
+        await otpModel.updateOne({ email: req.body.email, otpCode: req.body.otpCode, verified: false }, {verified: true})
+
+        if(req.body?.type && req.body.type == 10){
+            await userModel.updateOne({ email: req.body.email}, {verified: true})
+        }
+
+        return new apiResponse(200, "Otp verified successfully")
     },
 
     updatePass: async (req) => {
+        let id = req?.headers?.id
 
+        if (!req?.body?.newPass || !req?.body?.confirmPass || (req?.body?.newPass !== req?.body?.confirmPass)) throw new apiError(401, "New password and confirm passwords do not match")
+
+        // for updating password from user dashboard
+        if(id && req?.body?.oldPass){
+            let user = await userModel.findOne({_id: id}).select("pass")
+            const checkOldPass = user.verifyPassword(req.body.oldPass)
+            if(!checkOldPass) throw new apiError(401, "Invalid old password")
+        }
+        else{
+            // for updating password from forget password
+            if (!req?.body?.email) throw new apiError(401, "No email provided")
+            let user = await userModel.findOne({ email: req?.body?.email }).select("pass")
+            if (!user) throw new apiError(401, "Account does not exist")
+        }
+
+        let updateVector = id ? { _id: id } : {email: req?.body?.email}
+
+        let userData = await userModel.findOne(updateVector)
+        userData.pass = req?.body?.newPass
+        await userData.save()
+
+        return new apiResponse(200, "Password updated successfully")
     }
 }
 

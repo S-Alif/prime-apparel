@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
         default: 2024,
         enum: [2024, 1999],
         required: true
+    },
+    verified: {
+        type: Boolean,
+        default: false,
     }
 }, { timestamps: true, versionKey: false })
 
@@ -54,8 +58,8 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
-userSchema.methods.verifyPassword = function (pass) {
-    return checkEncryptedPassword(pass, this.pass)
+userSchema.methods.verifyPassword = async function (pass) {
+    return await checkEncryptedPassword(pass, this.pass)
 }
 
 userSchema.methods.generateToken = function () {

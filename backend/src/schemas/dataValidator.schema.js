@@ -17,6 +17,11 @@ const validator = {
         pass: Joi.string().required().min(8).required(),
     }),
 
+    verifyOtp: Joi.object({
+        email: Joi.string().email().pattern(new RegExp('^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|outlook\.com|icloud\.com)$')).required(),
+        otpCode: Joi.string().required().length(6),
+        type: Joi.number().optional()
+    })
 
 }
 
