@@ -4,7 +4,7 @@ import { apiResponse } from '../helpers/apiResponse.helper.js'
 import { apiError } from '../helpers/apiError.helper.js'
 import validator, { isValidData } from '../schemas/dataValidator.schema.js' 
 import mailHelper from '../helpers/mail.helper.js'
-import { otpMail } from '../utils/mailText.util.js'
+import { otpMail, passwordChanged } from '../utils/mailText.util.js'
 
 
 const authService = {
@@ -107,6 +107,8 @@ const authService = {
         let userData = await userModel.findOne(updateVector)
         userData.pass = req?.body?.newPass
         await userData.save()
+
+        await mailHelper(id ? req?.headers?.email : req?.body?.email, "Account verification", passwordChanged(userData?._doc?.fName, userData?._doc?.lName, req?.body?.date))
 
         return new apiResponse(200, "Password updated successfully")
     }

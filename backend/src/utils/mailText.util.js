@@ -4,4 +4,8 @@ const otpMail = (fName, lName, otpCode) => {
     return markUp
 }
 
-export {otpMail}
+const passwordChanged = (fName, lName, date) => {
+    return `<!DOCTYPE html><html> <head> <style> .greet h1 { font-size: 32px; } .greet p { font-size: 20px } .date { text-align: center; margin: 50px 0; } .date span { padding: 10px; font-size: 32px; } .warning { text-align: center; padding-top: 10px; font-size: 18px; } .regards { padding-top: 30px; } .regards h4 { font-size: 22px; margin-bottom: 10px; } .regards p { font-size: 16px; } </style> </head> <body> <div class="greet"> <h1>Hi, ${fName} ${lName},</h1> <p>Your account password was changed at</p> </div> <hr> <h3 class="date"> <span>${date}</span> </h3> <hr> <p class="warning">If you did not change your password please contact us immediately</p> <div class="regards"> <h4>Sincerely regards,</h4> <p>Prime Apparel team</p> </div> </body></html>`
+}
+
+export { otpMail, passwordChanged }
