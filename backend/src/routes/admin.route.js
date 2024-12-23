@@ -14,16 +14,21 @@ const router = express.Router()
 
 
 // routes
-router
-    .use('/dashboard', dashboardRoutes)
-    .use('/product', productRoutes)
-    .use('/category', categoryRoutes)
-    .use('/colors', colorRoutes)
-    .use('/sizes', sizeRoutes)
-    .use('/order', orderRoutes)
-    .use('/invoice', invoiceRoutes)
-    .use('/payment', paymentRoutes)
-    .use('/reviews', reviewsRoutes)
+const routes = [
+    { path: '/dashboard', route: dashboardRoutes },
+    { path: '/product', route: productRoutes },
+    { path: '/category', route: categoryRoutes },
+    { path: '/colors', route: colorRoutes },
+    { path: '/sizes', route: sizeRoutes },
+    { path: '/order', route: orderRoutes },
+    { path: '/invoice', route: invoiceRoutes },
+    { path: '/payment', route: paymentRoutes },
+    { path: '/reviews', route: reviewsRoutes },
+]
+
+routes.forEach(({ path, route }) => {
+    router.use(path, route)
+})
 
 
 export default router

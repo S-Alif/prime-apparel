@@ -2,13 +2,14 @@ import express from 'express'
 import adminRoutes from './admin.route.js'
 import publicRoutes from './common.route.js'
 
-const router = express.Router()
-
 // middleware
+import authMiddleware from '../middlewares/auth.middleware.js'
+
+const router = express.Router()
 
 // routes
 router.use('/public', publicRoutes)
-router.use('/admin', adminRoutes)
+router.use('/admin', authMiddleware, adminRoutes)
 
 
 export default router

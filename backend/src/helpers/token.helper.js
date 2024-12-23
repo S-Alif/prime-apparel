@@ -5,9 +5,9 @@ export const issueToken = (data) => {
     return token
 }
 
-export const verifyToken = (token) => {
+export const verifyToken = async (token) => {
     try {
-        const decoded = jwt.verify(token, process.env.TOKEN_SECRET, (err, result) => {
+        const decoded = await jwt.verify(token, process.env.TOKEN_SECRET, (err, result) => {
             if (err) return null
             return result
         })
