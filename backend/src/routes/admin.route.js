@@ -19,7 +19,7 @@ const routes = [
     { path: '/product', route: productRoutes },
     { path: '/category', route: categoryRoutes },
     { path: '/colors', route: colorRoutes },
-    { path: '/sizes', route: sizeRoutes },
+    { path: '/size', route: sizeRoutes },
     { path: '/order', route: orderRoutes },
     { path: '/invoice', route: invoiceRoutes },
     { path: '/payment', route: paymentRoutes },
