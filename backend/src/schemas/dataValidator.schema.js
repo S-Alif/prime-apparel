@@ -9,7 +9,8 @@ const validator = {
         fName: Joi.string().max(50).min(2).required(),
         lName: Joi.string().max(50).min(2).required(),
         email: Joi.string().email().pattern(new RegExp('^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|outlook\.com|icloud\.com)$')).required().required(),
-        pass: Joi.string().min(8).required()
+        pass: Joi.string().min(8).required(),
+        role: Joi.number().optional()
     }),
 
     login: Joi.object({

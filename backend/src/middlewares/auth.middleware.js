@@ -1,7 +1,7 @@
 import {apiError} from '../helpers/apiError.helper.js'
 import { verifyToken } from '../helpers/token.helper.js'
 
-const authMiddleware = async (allowedRoles = []) => {
+const authMiddleware = (allowedRoles = []) => {
     return async (req, res, next) => {
         try {
             let token = req.headers?.token
@@ -23,7 +23,7 @@ const authMiddleware = async (allowedRoles = []) => {
             next()
 
         } catch (error) {
-            throw new apiError(500, "Server failed")
+            next(error)
         }
     }
 }
