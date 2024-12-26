@@ -45,7 +45,7 @@ const colorService = {
         return new apiResponse(200, "Color deleted")
     },
 
-    getAll: async () => {
+    getAll: async (req) => {
         let colors = await colorModel.find()
         return new apiResponse(200, colors)
     }
