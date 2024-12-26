@@ -22,7 +22,16 @@ const validator = {
         email: Joi.string().email().pattern(new RegExp('^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|outlook\.com|icloud\.com)$')).required(),
         otpCode: Joi.string().required().length(6),
         type: Joi.number().optional()
-    })
+    }),
+
+    colorData: Joi.object({
+        name: Joi.string().min(2).max(20).required(), 
+        colorValue: Joi.string().min(3).max(20).required(), 
+    }),
+
+    categoryAndSize: Joi.object({
+        name: Joi.string().min(2).max(20).required(), 
+    }),
 
 }
 
