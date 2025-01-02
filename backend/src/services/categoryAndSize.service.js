@@ -33,10 +33,10 @@ const categoryAndSizeService = {
 
     remove: async (req, model) => {
         const id = req?.params?.id
-        if (!id) throw new apiError(400, "Cannot delete color")
+        if (!id) throw new apiError(400, "Cannot delete data")
 
         let result = await model.findByIdAndDelete({ _id: id })
-        return new apiResponse(200, "Color deleted")
+        return new apiResponse(200, "Data deleted")
     },
 
     getAll: async (req, model) => {

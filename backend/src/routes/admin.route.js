@@ -8,6 +8,7 @@ import orderRoutes from './admin-routes/order.admin.route.js'
 import invoiceRoutes from './admin-routes/invoice.admin.route.js'
 import paymentRoutes from './admin-routes/payment.admin.route.js'
 import reviewsRoutes from './admin-routes/review.admin.route.js'
+import userRoutes from './admin-routes/users.admin.route.js'
 
 
 const router = express.Router()
@@ -15,6 +16,7 @@ const router = express.Router()
 
 // routes
 const routes = [
+    { path: '/users', route: userRoutes },
     { path: '/dashboard', route: dashboardRoutes },
     { path: '/product', route: productRoutes },
     { path: '/category', route: categoryRoutes },
