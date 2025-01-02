@@ -21,39 +21,6 @@ const productSchema = new mongoose.Schema({
         required: true,
         ref: "category"
     },
-    variations: [
-        {
-            size: {
-                type: mongoose.Types.ObjectId,
-                required: true,
-                ref: "size"
-            },
-            color: {
-                type: mongoose.Types.ObjectId,
-                required: true,
-                ref: "color"
-            },
-            stock: {
-                type: Number,
-                required: true,
-                min: 1
-            }
-        }
-    ],
-    images: [
-        {
-            url: {
-                type: String,
-                required: true,
-                trim: true
-            },
-            deletUrl: {
-                type: String,
-                required: true,
-                trim: true
-            }
-        }
-    ],
     totalRating: {
         type: Number,
         default: 0,
