@@ -67,7 +67,7 @@ export const productService = {
             },
             {
                 $lookup: {
-                    from: "productImage",
+                    from: "productimages",
                     localField: "_id",
                     foreignField: "productId",
                     as: "images"
@@ -79,7 +79,10 @@ export const productService = {
                     name: 1,
                     detail: 1,
                     price: 1,
-                    category: "$categories.name",
+                    category: {
+                        _id: "$categories._id",
+                        name: "$categories.name"
+                    },
                     images: "$images.url",
                     discount: 1,
                     totalRatings: 1,
