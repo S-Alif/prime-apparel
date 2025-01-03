@@ -11,7 +11,7 @@ const userService = {
 
         let result = await userModel.findOne({_id: id}).select("-pass")
 
-        if (!result) throw apiError(401, "User not found")
+        if (!result) throw apiError(400, "User not found")
         return new apiResponse(200, result)
     },
 
@@ -19,7 +19,7 @@ const userService = {
         let id = req.headers?.id
         let data = req?.body
         if (!id) throw new apiError(403, "Please login")
-        if(!data) throw new apiError(401, "Nothing to update")
+        if(!data) throw new apiError(400, "Nothing to update")
         
         let result = await userModel.findOneAndUpdate({_id: id}, data, {new: true})
         return new apiResponse(200, result)

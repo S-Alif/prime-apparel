@@ -33,6 +33,12 @@ const validator = {
         name: Joi.string().min(2).max(20).required(), 
     }),
 
+    productAddSchema: Joi.object({
+        name: Joi.string().min(2).max(100).required(),
+        detail: Joi.string().min(2).max(5000).required(),
+        price: Joi.number().required(),
+        category: Joi.string().required(),
+    })
 }
 
 export default validator
