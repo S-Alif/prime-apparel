@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import productModel from '../models/product.model.js'
 import productVariationModel from '../models/productVariations.model.js'
 import productImageModel from '../models/productImages.model.js'
@@ -5,7 +6,7 @@ import {apiError} from '../helpers/apiError.helper.js'
 import {apiResponse} from '../helpers/apiResponse.helper.js'
 import validator, {isValidData} from '../schemas/dataValidator.schema.js'
 import { roles } from '../constants/constants.js'
-import mongoose from 'mongoose'
+import { uploadProductImage } from '../utils/fileHandler.util.js'
 
 
 export const productService = {
@@ -202,8 +203,36 @@ export const productVariation = {
 
 // product image
 export const productImage = {
-    uploadImage: async (req) => {
 
+    // upload product image
+    uploadImage: async (req) => {
+        const productId = req.params?.id
+        if(!productId) throw new apiError(400, "Invalid product information")
+        
+        const imageCount = await productImageModel.countDocuments({_id: productId})
+        if(imageCount >= 5) throw new apiError(400, "Maximum image limit reached")
+
+        // new images uploading counts
+        const uploadingImageArray = Object.keys(req.files).flatMap(file => {
+            return Array.isArray(req.files[file]) ? req.files[file] : [req.files[file]]
+        })
+        
+        if(imageCount + uploadingImageArray.length >= 5) throw new apiError(400, "Maximum image limit reached")
+
+        // upload to imgbb
+        let uploadImageResult = await uploadProductImage(uploadingImageArray)
+        
+        // upload product image in database
+        let uploadImage = uploadImageResult.map(async (imgUrlObj) => {
+            return await productImageModel.create({
+                productId,
+                ...imgUrlObj
+            })
+        })
+        let result = await Promise.all(uploadImage)
+        
+        return new apiResponse(200, result)
+        
     },
     remove: async (req) => {
 
