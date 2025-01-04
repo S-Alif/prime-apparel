@@ -119,7 +119,7 @@ export const productService = {
             { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
             {
                 $lookup: {
-                    from: "productImage",
+                    from: "productimages",
                     localField: "_id",
                     foreignField: "productId",
                     as: "images"
@@ -154,7 +154,10 @@ export const productService = {
                     name: 1,
                     detail: 1,
                     price: 1,
-                    category: "$categories.name",
+                    category: {
+                        _id: "$categories._id",
+                        name: "$categories.name"
+                    },
                     images: "$images.url",
                     variations: {
                         $map: {
@@ -237,10 +240,19 @@ export const productImage = {
         return new apiResponse(200, result)
         
     },
+    
     remove: async (req) => {
 
     },
-    getImagesByProduct: async (req) => {
 
+    // get images by product
+    getImagesByProduct: async (req) => {
+        const productId = req.params?.id
+        const role = req.headers?.role
+        if(!productId) throw new apiError(400, "Invalid product information")
+        
+        let result = await productImageModel.find({_id: productId}).select((role && role == roles.admin) ? "" : "url -_id")
+
+        return new apiResponse(200, result)
     }
 }

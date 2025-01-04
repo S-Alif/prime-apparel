@@ -24,7 +24,7 @@ const uploadProductImage = async (fileArray) => {
             const { display_url, delete_url } = result.data?.data
             return{
                 url: display_url,
-                deletUrl: delete_url
+                deleteUrl: delete_url
             }
         })
 

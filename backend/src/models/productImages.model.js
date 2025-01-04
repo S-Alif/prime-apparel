@@ -11,7 +11,7 @@ const productImageSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    deletUrl: {
+    deleteUrl: {
         type: String,
         required: true,
         trim: true
