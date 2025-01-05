@@ -6,7 +6,7 @@ import {apiError} from '../helpers/apiError.helper.js'
 import {apiResponse} from '../helpers/apiResponse.helper.js'
 import validator, {isValidData} from '../schemas/dataValidator.schema.js'
 import { roles } from '../constants/constants.js'
-import { uploadProductImage } from '../utils/fileHandler.util.js'
+import { removeProductImage, uploadProductImage } from '../utils/fileHandler.util.js'
 
 
 export const productService = {
@@ -240,9 +240,19 @@ export const productImage = {
         return new apiResponse(200, result)
         
     },
-    
-    remove: async (req) => {
 
+    remove: async (req) => {
+        const imgId = req.params?.imgId
+        const productId = req.params?.productId
+        if (!imgId || !productId) throw new apiError(400, "Invalid image information")
+
+        // let imageDeletUrl = await productImageModel.findOne({ _id: imgId, productId: productId }).select('deleteUrl -_id')
+
+        // delete from imgbb
+        // await removeProductImage(imageDeletUrl?.deleteUrl)
+        
+        let result = await productImageModel.findByIdAndDelete({_id: imgId, productId: productId})
+        return new apiResponse(200, "Image removed successfully")
     },
 
     // get images by product
@@ -251,7 +261,7 @@ export const productImage = {
         const role = req.headers?.role
         if(!productId) throw new apiError(400, "Invalid product information")
         
-        let result = await productImageModel.find({_id: productId}).select((role && role == roles.admin) ? "" : "url -_id")
+        let result = await productImageModel.find({ productId: productId}).select((role && role == roles.admin) ? "" : "url -_id")
 
         return new apiResponse(200, result)
     }

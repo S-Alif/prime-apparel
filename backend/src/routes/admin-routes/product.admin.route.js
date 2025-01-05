@@ -17,6 +17,6 @@ router
     .delete('/:id', productController.remove)
     .post('/image/:id', fileUpload({ createParentPath: true }), fileCheckMiddleware([fileExtensions.jpg, fileExtensions.png]), productController.addImage) // product image
     .get('/image/:id', productController.getImages)
-    .delete('/image/:id', productController.removeImageById)
+    .delete('/image/:imgId/:productId', productController.removeImageById)
 
 export default router

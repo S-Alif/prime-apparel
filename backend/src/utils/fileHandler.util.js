@@ -2,7 +2,7 @@ import axios from "axios"
 import { apiError } from "../helpers/apiError.helper.js"
 import FormData from "form-data"
 
-
+// upload product image
 const uploadProductImage = async (fileArray) => {
     try {        
         const uploadPromise = fileArray.map(async (file) => {
@@ -37,4 +37,15 @@ const uploadProductImage = async (fileArray) => {
     }
 }
 
-export {uploadProductImage}
+// remove product image
+const removeProductImage = async (fileDeleteUrl) => {
+    try {
+        const result = await axios.get(fileDeleteUrl)
+        console.log(fileDeleteUrl, result.data)
+        return true
+    } catch (error) {
+        throw new apiError(400, "Could not remove image")   
+    }
+}
+
+export {uploadProductImage, removeProductImage}
