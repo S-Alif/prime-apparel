@@ -10,11 +10,6 @@ const productImageSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    },
-    deleteUrl: {
-        type: String,
-        required: true,
-        trim: true
     }
 }, { timestamps: true, versionKey: false })
 
