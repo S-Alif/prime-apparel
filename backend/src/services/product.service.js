@@ -103,8 +103,11 @@ export const productService = {
 
     // get a product by id
     getProductById: async (req) => {
+        const role = req.headers?.role
         const id = req?.params?.id
         if (!id) throw new apiError(400, "No product Id")
+
+        const isAdmin = (role && role == roles.admin)
 
         const pipeline = [
             { $match: { _id: new mongoose.Types.ObjectId(id) } },
@@ -127,7 +130,7 @@ export const productService = {
             },
             {
                 $lookup: {
-                    from: "productVariation",
+                    from: "productvariations",
                     localField: "_id",
                     foreignField: "productId",
                     as: "variations"
@@ -158,36 +161,36 @@ export const productService = {
                         _id: "$categories._id",
                         name: "$categories.name"
                     },
-                    images: "$images.url",
-                    variations: {
-                        $map: {
-                            input: "$variations",
-                            as: "variation",
-                            in: {
-                                _id: "$$variation._id",
-                                size: {
-                                    $arrayElemAt: [
-                                        "$variationSizes",
-                                        { $indexOfArray: ["$variations.size", "$$variation.size"] }
-                                    ]
-                                },
-                                color: {
-                                    $arrayElemAt: [
-                                        "$variationColors",
-                                        { $indexOfArray: ["$variations.color", "$$variation.color"] }
-                                    ]
-                                },
-                                stock: "$$variation.stock"
-                            }
-                        }
-                    },
+                    images: !isAdmin ? "$images.url" : "$images",
+                    // variations: {
+                    //     $map: {
+                    //         input: "$variations",
+                    //         as: "variation",
+                    //         in: {
+                    //             _id: "$$variation._id",
+                    //             size: {
+                    //                 $arrayElemAt: [
+                    //                     "$variationSizes",
+                    //                     { $indexOfArray: ["$variations.size", "$$variation.size.name"] }
+                    //                 ]
+                    //             },
+                    //             color: {
+                    //                 $arrayElemAt: [
+                    //                     "$variationColors",
+                    //                     { $indexOfArray: ["$variations.color", "$$variation.color.name"] }
+                    //                 ]
+                    //             },
+                    //             stock: "$$variation.stock"
+                    //         }
+                    //     }
+                    // },
                     createdAt: 1
                 }
             }
         ]
 
         let result = await productModel.aggregate(pipeline)        
-        return new apiResponse(200, result)
+        return new apiResponse(200, result[0])
     }
 }
 
