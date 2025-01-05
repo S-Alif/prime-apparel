@@ -193,17 +193,71 @@ export const productService = {
 
 // product variation
 export const productVariation = {
+
+    // create variation
     create: async (req) => {
+        const data = req?.body
+        if(!data) throw new apiError(400, "Provide product variation data")
+        
+        let validate = isValidData(validator.productVariation, data)
+        if(!validate) throw new apiError(401, "Invalid product variation data")
 
+        let dataCopy = {...data}
+        delete dataCopy['stock']
+        let checkForDuplication = await productVariationModel.countDocuments(dataCopy)
+
+        if (checkForDuplication > 0) throw new apiError(400, "Variation already exists")
+
+        let result = await productVariationModel.create(data)
+        return new apiResponse(200, result)
     },
+
+    // update a variation
     update: async (req) => {
- 
+        let data = req?.body
+        if (!data) throw new apiError(400, "Provide product variation data")
+
+        const variationId = req.params?.varId
+        const productId = req.params?.productId
+
+        if(!variationId || !productId) throw new apiError(400, "Provide product variation information")
+
+        let checkForDuplication = await productVariationModel.countDocuments({ productId: productId, size: data?.size, color: data?.color })
+
+        if(checkForDuplication > 1) throw new apiError(400, "Variation already exists")
+
+        let result = await productVariationModel.findByIdAndUpdate({_id: variationId, productId: productId}, data, {new: true})
+
+        return new apiResponse(200, result)
     },
+
+    // remove a variation
     remove: async (req) => {
+        const variationId = req.params?.varId
+        const productId = req.params?.productId
+        if(!variationId || !productId) throw new apiError(400, "Provide product variation information")
 
+        let result = await productVariationModel.findByIdAndDelete({_id: variationId, productId: productId})
+        return new apiResponse(200, result)
     },
-    getVariationsByProduct: async (req) => {
 
+    // get variations by product
+    getVariationsByProduct: async (req) => {
+        const role = req.headers?.role
+        const productId = req.params?.productId
+        if(!productId) throw new apiError(400, "Invalid product information")
+        
+        let result = await productVariationModel.find({productId: productId})
+                    .select((role && role == roles.admin) ? "" : "-_id -createdAt -updatedAt")
+                    .populate({
+                        path: 'color',
+                        select: 'name colorValue'
+                    })
+                    .populate({
+                        path:'size',
+                        select: 'name'
+                    })
+        return new apiResponse(200, result)
     }
 }
 
@@ -241,6 +295,7 @@ export const productImage = {
         
     },
 
+    // remove product images
     remove: async (req) => {
         const imgId = req.params?.imgId
         const productId = req.params?.productId

@@ -37,15 +37,4 @@ const uploadProductImage = async (fileArray) => {
     }
 }
 
-// remove product image
-const removeProductImage = async (fileDeleteUrl) => {
-    try {
-        const result = await axios.get(fileDeleteUrl)
-        console.log(fileDeleteUrl, result.data)
-        return true
-    } catch (error) {
-        throw new apiError(400, "Could not remove image")   
-    }
-}
-
-export {uploadProductImage, removeProductImage}
+export {uploadProductImage}
