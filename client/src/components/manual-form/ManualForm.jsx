@@ -1,4 +1,4 @@
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 
 
 const ManualForm = ({ 
@@ -12,7 +12,6 @@ const ManualForm = ({
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(e.target)
         const form = new FormData(e.target)
         const data = Object.fromEntries(form)
         onSubmit(data)
