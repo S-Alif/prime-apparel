@@ -44,6 +44,7 @@ const GenerateSelectField = ({
                 id={`${name}-field`}
                 value={value}
                 onValueChange={(e) => setValue(e)}
+                name={name}
             >
                 <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder={placeholder} />

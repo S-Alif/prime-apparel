@@ -38,11 +38,11 @@ const Login = () => {
                 name="option"
                 placeholder="Select option"
                 selectValues={[
-                    { _id: 1, name: 'Option 1' },
-                    { _id: 2, name: 'Option 2' },
-                    { _id: 3, name: 'Option 3' },
+                    { _id: "1", name: 'Option 1' },
+                    { _id: "2", name: 'Option 2' },
+                    { _id:" 3", name: 'Option 3' },
                 ]}
-                defaultValue={1}
+                defaultValue={"1"}
             />
 
         </ManualForm>
