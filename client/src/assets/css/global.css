@@ -1,0 +1,33 @@
+html{
+    font-size: 100%;
+    scroll-behavior: smooth;
+}
+
+body{
+    width: 100%;
+    height: auto;
+    overflow-x: hidden;
+    font-family: var(--theme-font);
+}
+
+
+/* for containers */
+.container{
+    @apply mx-auto max-w-[calc(100%-15px)] md:max-w-[calc(100%-20px)] lg:max-w-[calc(100%-80px)] xl:max-w-[calc(100%-110px)];
+}
+
+/* for nav links */
+.navlink{
+    @apply text-[17px] font-semibold text-gray-500;
+}
+.navlink.active{
+    @apply text-black;
+}
+
+/* navs and search */
+.navs-and-search{
+    @apply absolute top-[90px] max-h-0 lg:max-h-max transition-all duration-300 left-0 lg:static bg-white lg:bg-transparent w-full lg:w-auto flex flex-col lg:flex-row justify-between items-center gap-5 lg:gap-10 xl:gap-20 overflow-hidden shadow-sm lg:shadow-none;
+}
+.navs-and-search.open{
+    @apply max-h-[500px] transition-all duration-300 border-b-2 border-b-gray-300 py-5 lg:border-b-0;
+}
