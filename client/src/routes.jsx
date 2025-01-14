@@ -3,6 +3,7 @@ import Login from "./pages/auth-pages/login"
 import Signup from "./pages/auth-pages/Signup"
 import FindAccount from "./pages/auth-pages/FindAccount"
 import Verification from "./pages/auth-pages/Verification"
+import CreateNewPass from "./pages/auth-pages/CreateNewPass"
 
 // layouts
 import UserLayout from "./components/layouts/UserLayout"
@@ -34,7 +35,7 @@ const routes = [
             },
             {
                 path: '/create-new-password',
-                element: <Verification />,
+                element: <CreateNewPass />,
             },
         ]
     },

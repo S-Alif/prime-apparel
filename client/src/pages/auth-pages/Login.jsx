@@ -43,7 +43,7 @@ const Login = () => {
                 <ManualInput
                     field="input"
                     fieldType="password"
-                    fieldLabel="Your Password"
+                    fieldLabel="Your password"
                     name="pass"
                     placeholder="Enter password"
                 />

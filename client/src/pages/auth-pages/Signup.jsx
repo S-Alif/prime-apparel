@@ -37,7 +37,7 @@ const Signup = () => {
                 <ManualInput
                     field="input"
                     fieldType="text"
-                    fieldLabel="First Name"
+                    fieldLabel="First name"
                     name="fName"
                     placeholder="Your first name"
                 />
@@ -45,7 +45,7 @@ const Signup = () => {
                 <ManualInput
                     field="input"
                     fieldType="text"
-                    fieldLabel="Last Name"
+                    fieldLabel="Last name"
                     name="lName"
                     placeholder="Your last name"
                 />
