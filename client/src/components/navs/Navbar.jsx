@@ -30,7 +30,7 @@ const NavSearchField = () => {
 const Navbar = () => {
 
     const paths = useLocation()
-    const basicUserPaths = ["/login", "/signup"]    
+    const basicUserPaths = ["/login", "/signup", "/find-account", "/verification", "/create-new-password"]
     let isBasicUserPaths = basicUserPaths.includes(paths.pathname)
 
     const [navOpen, setNavOpen] = useState(false)

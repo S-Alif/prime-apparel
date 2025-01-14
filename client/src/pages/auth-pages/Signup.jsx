@@ -16,7 +16,7 @@ const Signup = () => {
 
     return (
         <AuthPagesLayout
-            pageImage="https://images.pexels.com/photos/28642930/pexels-photo-28642930/free-photo-of-stylish-man-in-sanssouci-park-potsdam.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            pageImage="https://images.unsplash.com/photo-1620511469298-7c119cc6982c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             id="signup-page"
             pageTitle="Sign up"
             belowTitleText="Sign up to buy our products"

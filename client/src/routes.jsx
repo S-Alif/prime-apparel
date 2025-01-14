@@ -1,9 +1,10 @@
 import App from "./App"
 import Login from "./pages/auth-pages/login"
+import Signup from "./pages/auth-pages/Signup"
+import FindAccount from "./pages/auth-pages/FindAccount"
 
 // layouts
 import UserLayout from "./components/layouts/UserLayout"
-import Signup from "./pages/auth-pages/Signup"
 
 const routes = [
     {
@@ -21,6 +22,10 @@ const routes = [
             {
                 path: '/signup',
                 element: <Signup />,
+            },
+            {
+                path: '/find-account',
+                element: <FindAccount />,
             }
         ]
     },
