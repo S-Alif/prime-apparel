@@ -8,18 +8,18 @@ const GenerateInputField = ({
     fieldLabel,
     name,
     defaultValue,
-    placeholder
+    placeholder,
+    onChange
 }) => {
-    const [value, setValue] = useState(defaultValue)
     return (
         <div className="mb-8">
             <p className="text-[18px] pb-3">{fieldLabel}</p>
             <Input
                 type={fieldType}
                 name={name}
-                value={value}
+                value={defaultValue || ""}
                 placeholder={placeholder}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => onChange(name, e.target.value)}
                 id={`${name}-field`}
                 className="h-12 !text-[17px]"
             />
@@ -32,19 +32,20 @@ const GenerateSelectField = ({
     name,
     fieldLabel,
     selectValues,
-    defaultSelectValue,
-    placeholder
+    defaultValue = "",
+    placeholder,
+    onChange
 }) => {
 
-    const [value, setValue] = useState(defaultSelectValue)
+    const [value, setValue] = useState(defaultValue)
 
     return (
         <div>
             <label htmlFor={`${name}-field`}>{fieldLabel}</label>
             <Select 
                 id={`${name}-field`}
-                value={value}
-                onValueChange={(e) => setValue(e)}
+                value={defaultValue || ""}
+                onValueChange={(e) => onChange(name, e)}
                 name={name}
             >
                 <SelectTrigger className="w-[180px]">
@@ -71,8 +72,8 @@ const ManualInput = ({
     fieldLabel = "Field label",
     name = "giveAName",
     placeholder = "A placeholder",
-    selectValues = [],
-    defaultValue = ""
+    defaultValue = "",
+    onChange
 }) => {
 
     // return input fields
@@ -83,6 +84,7 @@ const ManualInput = ({
             name={name}
             placeholder={placeholder}
             defaultValue={defaultValue}
+            onChange={onChange}
         />
     }
 
@@ -91,9 +93,10 @@ const ManualInput = ({
         return <GenerateSelectField
             fieldLabel={fieldLabel}
             selectValues={selectValues}
-            defaultSelectValue={defaultValue}
+            defaultValue={defaultValue}
             name={name}
             placeholder={placeholder}
+            onChange={onChange}
         />
     }
 }

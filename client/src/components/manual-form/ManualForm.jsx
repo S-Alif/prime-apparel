@@ -1,32 +1,55 @@
+import { forwardRef, useImperativeHandle, useRef, useState } from "react"
 import { Button } from "../ui/button"
+import React from "react"
 
 
-const ManualForm = ({ 
+const ManualForm = forwardRef(({
     formId = "form-section",
     buttonText = "submit",
     buttonSize = "default",
     buttonVariant = "default",
     onSubmit,
-    children 
-}) => {
+    defaultValues = {},
+    children
+}, ref) => {
+
+    const formRef = useRef()
+    const [values, setValues] = useState(defaultValues)
+
+    useImperativeHandle(ref, () => ({
+        resetForm: () => {
+            setValues(defaultValues)
+        }
+    }))
+
+    const handleChange = (name, value) => {
+        setValues(prev => ({ ...prev, [name]: value }));
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const form = new FormData(e.target)
-        const data = Object.fromEntries(form)
-        onSubmit(data)
+        onSubmit(values)
     }
 
 
-  return (
-    <div id="form-section">
-        <form id={formId} onSubmit={handleSubmit}>
-            {children}
+    return (
+        <div id="form-section">
+            <form id={formId} ref={formRef} onSubmit={handleSubmit}>
 
-            <Button type="submit" size={buttonSize} variant={buttonVariant}>{buttonText}</Button>
-        </form>
-    </div>
-  )
-}
+                {
+                    React.Children.map(children, (child) => {
+                        return React.cloneElement(child, {
+                            ...child.props,
+                            defaultValue: values[child.props.name],
+                            onChange: handleChange,
+                        })
+                    })
+                }
+
+                <Button type="submit" size={buttonSize} variant={buttonVariant}>{buttonText}</Button>
+            </form>
+        </div>
+    )
+})
 
 export default ManualForm
