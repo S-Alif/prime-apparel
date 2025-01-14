@@ -1,5 +1,5 @@
-import { NavLink, useLocation } from "react-router"
 import { useState } from "react"
+import { NavLink, useLocation } from "react-router"
 import { Button, buttonVariants } from "../ui/button"
 import { Heart, Menu, Search, ShoppingCart, User } from "react-feather"
 
@@ -10,7 +10,7 @@ const NavSearchField = () => {
     const [value, setValue] = useState("")
     
     return(
-        <div className="bg-gray-200 rounded-l-sm w-[400px] max-w-[calc(100%-20px)]">
+        <div className="bg-gray-200 rounded-l-sm lg:w-[300px] xl:w-[400px] max-w-[calc(100%-20px)]">
             <div className="w-full flex">
                 <input
                     type="text"
@@ -70,7 +70,7 @@ const Navbar = () => {
                 <div className="h-full flex justify-between items-center">
 
                     <div className="logo">
-                        <NavLink to="/" className="font-bold lg:text-2xl">Prime <span className="text-primary">Apparel</span></NavLink>
+                        <NavLink to="/" className="font-bold text-xl lg:text-2xl">Prime <span className="text-primary">Apparel</span></NavLink>
                     </div>
 
                     {/* navs and search */}
