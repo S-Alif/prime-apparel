@@ -1,9 +1,79 @@
-
+import AuthPagesLayout from "@/components/AuthPagesLayout"
+import ManualForm from "@/components/manual-form/ManualForm"
+import ManualInput from "@/components/manual-form/ManualInput"
+import { buttonVariants } from "@/components/ui/button"
+import { useRef } from "react"
+import { NavLink } from "react-router"
 
 const Signup = () => {
-  return (
-    <div>Signup</div>
-  )
+
+    const formRef = useRef()
+
+    const formSubmit = (e) => {
+        console.log(e)
+        formRef.current.resetForm()
+    }
+
+    return (
+        <AuthPagesLayout
+            pageImage="https://images.pexels.com/photos/28642930/pexels-photo-28642930/free-photo-of-stylish-man-in-sanssouci-park-potsdam.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            id="signup-page"
+            pageTitle="Sign up"
+            belowTitleText="Sign up to buy our products"
+        >
+            <ManualForm
+                formId="signup-form"
+                buttonText="Signup"
+                buttonSize="lg"
+                onSubmit={formSubmit}
+                ref={formRef}
+                defaultValues={{
+                    fName: "",
+                    lName: "",
+                    email: "",
+                    pass: ""
+                }}
+            >
+                <ManualInput
+                    field="input"
+                    fieldType="text"
+                    fieldLabel="First Name"
+                    name="fName"
+                    placeholder="Your first name"
+                />
+
+                <ManualInput
+                    field="input"
+                    fieldType="text"
+                    fieldLabel="Last Name"
+                    name="lName"
+                    placeholder="Your last name"
+                />
+
+                <ManualInput
+                    field="input"
+                    fieldType="email"
+                    fieldLabel="Your email"
+                    name="email"
+                    placeholder="Enter your email"
+                />
+
+                <ManualInput
+                    field="input"
+                    fieldType="password"
+                    fieldLabel="Your password"
+                    name="pass"
+                    placeholder="Enter your password"
+                />
+            </ManualForm>
+
+            <p className="!text-[17px] pt-10">
+                Already have an account ?
+                <NavLink to="/login" className={`!pl-2 !text-[17px] ${buttonVariants({ variant: "link" })}`}>Log in</NavLink>
+            </p>
+
+        </AuthPagesLayout>
+    )
 }
 
 export default Signup

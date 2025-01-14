@@ -3,6 +3,7 @@ import Login from "./pages/auth-pages/login"
 
 // layouts
 import UserLayout from "./components/layouts/UserLayout"
+import Signup from "./pages/auth-pages/Signup"
 
 const routes = [
     {
@@ -16,6 +17,10 @@ const routes = [
             {
                 path: '/login',
                 element: <Login />,
+            },
+            {
+                path: '/signup',
+                element: <Signup />,
             }
         ]
     },

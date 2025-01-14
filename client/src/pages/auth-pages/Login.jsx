@@ -52,7 +52,7 @@ const Login = () => {
 
             <p className="!text-[17px] pt-10">
                 Don't have an account ?
-                <NavLink className={`!pl-2 text-[17px] ${buttonVariants({ variant: "link" })}`}>Sign in</NavLink>
+                <NavLink to="/signup" className={`!pl-2 !text-[17px] ${buttonVariants({ variant: "link" })}`}>Sign in</NavLink>
             </p>
         </AuthPagesLayout>
     )
