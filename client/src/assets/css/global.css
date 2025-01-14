@@ -10,6 +10,10 @@ body{
     font-family: var(--theme-font);
 }
 
+p{
+    @apply text-[17px];
+}
+
 
 /* for containers */
 .container{

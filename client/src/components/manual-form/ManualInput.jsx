@@ -12,8 +12,8 @@ const GenerateInputField = ({
 }) => {
     const [value, setValue] = useState(defaultValue)
     return (
-        <div>
-            <label htmlFor={`${name}-field`}>{fieldLabel}</label>
+        <div className="mb-8">
+            <p className="text-[18px] pb-3">{fieldLabel}</p>
             <Input
                 type={fieldType}
                 name={name}
@@ -21,6 +21,7 @@ const GenerateInputField = ({
                 placeholder={placeholder}
                 onChange={(e) => setValue(e.target.value)}
                 id={`${name}-field`}
+                className="h-12 !text-[17px]"
             />
         </div>
     )
