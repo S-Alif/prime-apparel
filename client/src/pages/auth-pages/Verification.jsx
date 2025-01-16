@@ -1,7 +1,5 @@
 import AuthPagesLayout from "@/components/AuthPagesLayout"
-import ManualForm from "@/components/manual-form/ManualForm"
-import ManualInput from "@/components/manual-form/ManualInput"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { useState } from "react"
 

@@ -1,7 +1,10 @@
+import apiHandler from "@/api/apiHandler"
 import AuthPagesLayout from "@/components/AuthPagesLayout"
 import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
 import { buttonVariants } from "@/components/ui/button"
+import { postMethod, publicRoutes } from "@/constants/apiConstants"
+import { validateMail } from "@/helpers/validationHelper"
 import { useRef } from "react"
 import { NavLink } from "react-router"
 
@@ -9,9 +12,19 @@ const Login = () => {
 
     const formRef = useRef()
 
-    const formSubmit = (e) => {
-        console.log(e)
-        formRef.current.resetForm()
+    const formSubmit = async (e) => {
+
+        if(!validateMail(e.email)){
+            alert("Invalid email address")
+            return
+        }
+        if(e.pass.length < 8) return
+        
+        let result = await apiHandler(publicRoutes.login, postMethod, e)
+        if(!result){
+            console.log(result.data)
+            formRef.current.resetForm()
+        }
     }
 
     return (
