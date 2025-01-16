@@ -1,15 +1,47 @@
+import apiHandler from "@/api/apiHandler"
 import AuthPagesLayout from "@/components/AuthPagesLayout"
 import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
-import { useState } from "react"
+import { patchMethod, postMethod, publicRoutes } from "@/constants/apiConstants"
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router"
 
 const Verification = () => {
 
     const [otp, setOtp] = useState("")
+    const [countdown, setCountdown] = useState(100)
+    const [isDisabled, setIsDisabled] = useState(true)
 
-    const formSubmit = () => {
-        console.log(otp)
+    // get the user email from state
+    const location = useLocation()
+    const userEmail = location.state?.email
+
+    const navigate = useNavigate()
+
+    // email resent countdown
+    useEffect(() => {
+        if (countdown > 0) {
+            const timer = setInterval(() => {
+                setCountdown(prev => prev - 1)
+            }, 1000)
+            return () => clearInterval(timer)
+        } else {
+            setIsDisabled(false)
+        }
+    }, [countdown])
+
+    // verify the code
+    const formSubmit = async () => {
+        let result = await apiHandler(publicRoutes.verifyOtp, patchMethod, {
+            email: userEmail,
+            otpCode: otp,
+            type: 10
+        })
+        if(!result) return alert("Could not verify OTP")
+
+        navigate("/login")
     }
+
 
     return (
         <AuthPagesLayout
@@ -54,6 +86,28 @@ const Verification = () => {
             >
                 Verify Code
             </Button>
+
+            {/* resend code */}
+            <div className="flex mt-10 items-center">
+                <p className="text-[17px]">Didn't receive the code ?</p>
+                <Button
+                    type="submit"
+                    size={"lg"}
+                    variant={"link"}
+                    className="text-[17px] !px-2"
+                    disabled={isDisabled}
+                    onClick={async () => {
+                        let sendOtp = await apiHandler(publicRoutes.sendOtp, postMethod, { email: userEmail })
+                        if (!sendOtp) return alert("Failed to send OTP")
+                        setOtp("")
+                        setCountdown(100)
+                        setIsDisabled(true)
+                    }}
+                >
+                    Resend
+                </Button>
+                {isDisabled && <p className="text-[17px]">in {`(${countdown}s)`}</p>}
+            </div>
 
 
         </AuthPagesLayout>

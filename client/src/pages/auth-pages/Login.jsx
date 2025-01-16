@@ -21,7 +21,7 @@ const Login = () => {
         if(e.pass.length < 8) return
         
         let result = await apiHandler(publicRoutes.login, postMethod, e)
-        if(!result){
+        if(result){
             console.log(result.data)
             formRef.current.resetForm()
         }

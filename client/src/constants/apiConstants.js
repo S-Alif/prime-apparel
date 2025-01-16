@@ -6,7 +6,7 @@ const userEndpoint = "user"
 
 export const getMethod = "GET"
 export const postMethod = "POST"
-export const pathMethod = "PATCH"
+export const patchMethod = "PATCH"
 export const deleteMethod = "DELETE"
 
 

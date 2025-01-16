@@ -1,19 +1,46 @@
+import apiHandler from "@/api/apiHandler"
 import AuthPagesLayout from "@/components/AuthPagesLayout"
 import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
 import { buttonVariants } from "@/components/ui/button"
+import { postMethod, publicRoutes } from "@/constants/apiConstants"
+import { validateMail, validatePassword } from "@/helpers/validationHelper"
 import { useRef } from "react"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 
 const Signup = () => {
 
     const formRef = useRef()
 
-    const formSubmit = (e) => {
+    const navigate = useNavigate()
+
+    const formSubmit = async (e) => {
+
+        // validation
+        if (!validateMail(e.email)) return alert("Invalid email")
+        if (e.fName.trim() == "" || e.fName.trim().length < 2) return alert("First name must be at least 2 characters")
+        if (e.lName.trim() == "" || e.lName.trim().length < 2) return alert("Last name must be at least 2 characters")
+        if (!validatePassword(e.pass)) return
+        
+        // signup
+        let result = await apiHandler(publicRoutes.signup, postMethod, e)
+        if(!result) return alert("Signup failed")
+
+        alert("Signup successful")
+
+        // send the otp
+        let sendOtp = await apiHandler(publicRoutes.sendOtp, postMethod, {email: e.email})
+        if(!sendOtp) return alert("Failed to send OTP")
+
+        alert(sendOtp.data)
+
+        // navigate to Verification
+        navigate("/verification", {state: {email: e.email}})
+
         console.log(e)
         formRef.current.resetForm()
     }
-
+    
     return (
         <AuthPagesLayout
             pageImage="https://images.unsplash.com/photo-1620511469298-7c119cc6982c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
