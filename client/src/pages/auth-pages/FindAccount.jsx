@@ -14,13 +14,12 @@ const FindAccount = () => {
     const navigate = useNavigate()
 
     const formSubmit = async (e) => {
-        console.log(e)
         // send the otp
         let sendOtp = await apiHandler(publicRoutes.sendOtp, postMethod, { email: e.email })
         if (!sendOtp) return alert("Failed to send OTP")
         
         alert(sendOtp?.data)
-        navigate("/verification", {state: {email: e.email}})
+        navigate("/verification", { state: { email: e.email, to: "/create-new-password"}})
         
         formRef.current.resetForm()
     }

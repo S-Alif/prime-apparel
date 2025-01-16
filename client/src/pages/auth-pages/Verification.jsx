@@ -15,7 +15,8 @@ const Verification = () => {
     // get the user email from state
     const location = useLocation()
     const userEmail = location.state?.email
-    console.log(location)
+    const nextDestination = location.state?.to
+    
     const navigate = useNavigate()
 
     // checking if the email is there
@@ -46,6 +47,7 @@ const Verification = () => {
         })
         if(!result) return alert("Could not verify OTP")
 
+        if(nextDestination) return navigate(nextDestination, { state: {email: userEmail} })
         navigate("/login")
     }
 

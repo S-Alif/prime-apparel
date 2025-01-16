@@ -8,17 +8,20 @@ export const validateMail = (email) => {
 // password validation
 export const validatePassword = (password) => {
     if(password.length < 8){
-        return alert('Password must be at least 8 characters')
+        alert('Password must be at least 8 characters')
+        return false
     }
 
     const hasLetter = /[a-zA-Z]/.test(password)
     if(!hasLetter){
-        return alert('Password must contain at least one letter')
+        alert('Password must contain at least one letter')
+        return false
     }
 
     const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password)
     if(!hasSymbol){
-        return alert('Password must contain at least one special character')
+        alert('Password must contain at least one special character')
+        return false
     }
 
     return true

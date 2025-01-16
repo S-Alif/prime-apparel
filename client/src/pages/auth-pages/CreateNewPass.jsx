@@ -1,17 +1,45 @@
+import apiHandler from "@/api/apiHandler"
 import AuthPagesLayout from "@/components/AuthPagesLayout"
 import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
-import { useRef } from "react"
+import { patchMethod, publicRoutes } from "@/constants/apiConstants"
+import { validatePassword } from "@/helpers/validationHelper"
+import { useEffect, useRef } from "react"
+import { useLocation, useNavigate } from "react-router"
 
 
 const CreateNewPass = () => {
 
     const formRef = useRef()
 
-    const formSubmit = (e) => {
-        console.log(e)
+    const location = useLocation()
+    const userEmail = location.state?.email
+
+    const navigate = useNavigate()
+
+    // checking if the email is there
+    useEffect(() => {
+        if (!userEmail) {
+            navigate(-1)
+        }
+    }, [])
+
+    // update the password
+    const formSubmit = async (e) => {
+        if(e.newPass !== e.confirmPass) return alert("Pasword don't match")
+        if(!validatePassword(e.newPass)) return
+        if(!validatePassword(e.confirmPass)) return
+
+        e.email = userEmail
+        let result = await apiHandler(publicRoutes.updatePass, patchMethod, e)
+        if(!result) return alert("Failed to update password")
+
+        alert(result?.data)
+        navigate("/login")
+
         formRef.current.resetForm()
     }
+
 
     return (
         <AuthPagesLayout
