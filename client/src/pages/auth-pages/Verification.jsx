@@ -15,8 +15,15 @@ const Verification = () => {
     // get the user email from state
     const location = useLocation()
     const userEmail = location.state?.email
-
+    console.log(location)
     const navigate = useNavigate()
+
+    // checking if the email is there
+    useEffect(() => {
+        if (!userEmail) {
+            navigate(-1)
+        }
+    }, [])
 
     // email resent countdown
     useEffect(() => {
