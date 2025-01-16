@@ -3,6 +3,7 @@ import AuthPagesLayout from "@/components/AuthPagesLayout"
 import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { patchMethod, postMethod, publicRoutes } from "@/constants/apiConstants"
+import { successToast } from "@/helpers/toasts"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
 
@@ -45,7 +46,8 @@ const Verification = () => {
             otpCode: otp,
             type: 10
         })
-        if(!result) return alert("Could not verify OTP")
+        if(!result) return
+        successToast(result?.data)
 
         if(nextDestination) return navigate(nextDestination, { state: {email: userEmail} })
         navigate("/login")

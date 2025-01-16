@@ -4,6 +4,7 @@ import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
 import { buttonVariants } from "@/components/ui/button"
 import { postMethod, publicRoutes } from "@/constants/apiConstants"
+import { successToast } from "@/helpers/toasts"
 import { validateMail } from "@/helpers/validationHelper"
 import { useRef } from "react"
 import { NavLink } from "react-router"
@@ -21,10 +22,9 @@ const Login = () => {
         if(e.pass.length < 8) return
         
         let result = await apiHandler(publicRoutes.login, postMethod, e)
-        if(result){
-            console.log(result.data)
-            formRef.current.resetForm()
-        }
+        if(!result) return
+        successToast("Login successful")
+        formRef.current.resetForm()
     }
 
     return (

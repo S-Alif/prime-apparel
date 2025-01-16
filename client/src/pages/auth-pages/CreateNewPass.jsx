@@ -3,7 +3,9 @@ import AuthPagesLayout from "@/components/AuthPagesLayout"
 import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
 import { patchMethod, publicRoutes } from "@/constants/apiConstants"
+import { successToast } from "@/helpers/toasts"
 import { validatePassword } from "@/helpers/validationHelper"
+import { format } from "date-fns"
 import { useEffect, useRef } from "react"
 import { useLocation, useNavigate } from "react-router"
 
@@ -24,6 +26,7 @@ const CreateNewPass = () => {
         }
     }, [])
 
+    
     // update the password
     const formSubmit = async (e) => {
         if(e.newPass !== e.confirmPass) return alert("Pasword don't match")
@@ -31,10 +34,11 @@ const CreateNewPass = () => {
         if(!validatePassword(e.confirmPass)) return
 
         e.email = userEmail
+        e.date = format(new Date(), 'MMMM dd, yyyy hh:mm a')
         let result = await apiHandler(publicRoutes.updatePass, patchMethod, e)
-        if(!result) return alert("Failed to update password")
+        if(!result) return
 
-        alert(result?.data)
+        successToast(result?.data)
         navigate("/login")
 
         formRef.current.resetForm()

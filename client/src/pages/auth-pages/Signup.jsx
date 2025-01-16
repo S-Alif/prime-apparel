@@ -4,6 +4,7 @@ import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
 import { buttonVariants } from "@/components/ui/button"
 import { postMethod, publicRoutes } from "@/constants/apiConstants"
+import { successToast } from "@/helpers/toasts"
 import { validateMail, validatePassword } from "@/helpers/validationHelper"
 import { useRef } from "react"
 import { NavLink, useNavigate } from "react-router"
@@ -26,18 +27,17 @@ const Signup = () => {
         let result = await apiHandler(publicRoutes.signup, postMethod, e)
         if(!result) return alert("Signup failed")
 
-        alert("Signup successful")
+        successToast("Signup successful")
 
         // send the otp
         let sendOtp = await apiHandler(publicRoutes.sendOtp, postMethod, {email: e.email})
-        if(!sendOtp) return alert("Failed to send OTP")
+        if(!sendOtp) return
 
-        alert(sendOtp.data)
+        successToast(sendOtp.data)
 
         // navigate to Verification
         navigate("/verification", {state: {email: e.email}})
 
-        console.log(e)
         formRef.current.resetForm()
     }
     

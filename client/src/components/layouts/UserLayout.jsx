@@ -1,5 +1,6 @@
 import Navbar from "../navs/Navbar"
 import { Outlet } from "react-router"
+import { Toaster } from "../ui/sonner"
 
 
 const UserLayout = () => {
@@ -10,6 +11,7 @@ const UserLayout = () => {
             <Outlet />
         </main>
 
+        <Toaster position="top-right" expand="true" richColors closeButton />
     </div>
   )
 }

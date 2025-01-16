@@ -1,3 +1,4 @@
+import { failToast } from "@/helpers/toasts"
 import apiCaller from "./apiConfig"
 
 const apiHandler = async (api, method="GET", data = {}) => {
@@ -15,8 +16,8 @@ const apiHandler = async (api, method="GET", data = {}) => {
         return result.data
     } catch (error) {
         if(error?.response?.data){
-            console.log(error.response.data.data)
-        }        
+            failToast(error.response.data.data)
+        }
         return false
     }
 }
