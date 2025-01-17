@@ -7,6 +7,9 @@ import CreateNewPass from "./pages/auth-pages/CreateNewPass"
 
 // layouts
 import UserLayout from "./components/layouts/UserLayout"
+import AddCategory from "./pages/admin/category/AddCategory"
+
+const adminPath = "/admin"
 
 const routes = [
     {
@@ -43,6 +46,22 @@ const routes = [
             }
         ]
     },
+    // admin routes
+    {
+        path: adminPath,
+        element: <UserLayout admin={true} />,
+        children: [
+            {
+                path: `${adminPath}/category`,
+                children: [
+                    {
+                        path: `${adminPath}/category/add`,
+                        element: <AddCategory />,
+                    }
+                ]
+            }
+        ]
+    }
 ]
 
 export default routes

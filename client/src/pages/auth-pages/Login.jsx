@@ -8,12 +8,13 @@ import { successToast } from "@/helpers/toasts"
 import { validateMail } from "@/helpers/validationHelper"
 import userStore from "@/stores/userStore"
 import { useRef } from "react"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 
 const Login = () => {
 
     const {setUser} = userStore()
     const formRef = useRef()
+    const navigate = useNavigate()
 
     const formSubmit = async (e) => {
 
@@ -26,8 +27,11 @@ const Login = () => {
         let result = await apiHandler(publicRoutes.login, postMethod, e)
         if(!result) return
         setUser(result.data)
+
         successToast("Login successful")
         formRef.current.resetForm()
+
+        if(result.data.role == 1999) navigate("/admin/category/add", {replace: true})
     }
 
     return (
