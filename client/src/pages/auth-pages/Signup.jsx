@@ -7,13 +7,14 @@ import { postMethod, publicRoutes } from "@/constants/apiConstants"
 import { successToast } from "@/helpers/toasts"
 import { validateMail, validatePassword } from "@/helpers/validationHelper"
 import { useRef } from "react"
-import { NavLink, useNavigate } from "react-router"
+import { NavLink, useLocation, useNavigate } from "react-router"
 
 const Signup = () => {
 
     const formRef = useRef()
-
     const navigate = useNavigate()
+    const location = useLocation()
+    const isSecuredPath = location.pathname == "/secured"
 
     const formSubmit = async (e) => {
 
@@ -23,6 +24,9 @@ const Signup = () => {
         if (e.lName.trim() == "" || e.lName.trim().length < 2) return alert("Last name must be at least 2 characters")
         if (!validatePassword(e.pass)) return
         
+        // change the role for admin in secured admin signup path
+        if(isSecuredPath) e.role = 1999
+
         // signup
         let result = await apiHandler(publicRoutes.signup, postMethod, e)
         if(!result) return alert("Signup failed")

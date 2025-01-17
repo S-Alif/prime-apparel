@@ -10,33 +10,37 @@ import UserLayout from "./components/layouts/UserLayout"
 
 const routes = [
     {
-        path: '/',
+        path: "/",
         element: <UserLayout />,
         children: [
             {
-                path: '/',
+                path: "/",
                 element: <App />,
             },
             {
-                path: '/login',
+                path: "/login",
                 element: <Login />,
             },
             {
-                path: '/signup',
+                path: "/signup",
                 element: <Signup />,
             },
             {
-                path: '/find-account',
+                path: "/find-account",
                 element: <FindAccount />,
             },
             {
-                path: '/verification',
+                path: "/verification",
                 element: <Verification />,
             },
             {
-                path: '/create-new-password',
+                path: "/create-new-password",
                 element: <CreateNewPass />,
             },
+            {
+                path: "/secured",
+                element: <Signup />,
+            }
         ]
     },
 ]
