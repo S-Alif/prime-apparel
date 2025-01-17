@@ -6,11 +6,13 @@ import { buttonVariants } from "@/components/ui/button"
 import { postMethod, publicRoutes } from "@/constants/apiConstants"
 import { successToast } from "@/helpers/toasts"
 import { validateMail } from "@/helpers/validationHelper"
+import userStore from "@/stores/userStore"
 import { useRef } from "react"
 import { NavLink } from "react-router"
 
 const Login = () => {
 
+    const {setUser} = userStore()
     const formRef = useRef()
 
     const formSubmit = async (e) => {
@@ -23,6 +25,7 @@ const Login = () => {
         
         let result = await apiHandler(publicRoutes.login, postMethod, e)
         if(!result) return
+        setUser(result.data)
         successToast("Login successful")
         formRef.current.resetForm()
     }
