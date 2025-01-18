@@ -1,10 +1,10 @@
 import { useRef } from "react"
-import ManualForm from "./manual-form/ManualForm"
+import ManualForm from "../manual-form/ManualForm"
 import { adminRoutes, patchMethod, postMethod } from "@/constants/apiConstants"
 import productSpecStore from "@/stores/productSpecStore"
 import apiHandler from "@/api/apiHandler"
 import { failToast, successToast } from "@/helpers/toasts"
-import ManualInput from "./manual-form/ManualInput"
+import ManualInput from "../manual-form/ManualInput"
 
 
 const CategoryColorSizeForm = ({
@@ -20,11 +20,11 @@ const CategoryColorSizeForm = ({
     let defaultValue = {
         name: ""
     }
-    if(generateForm == "colors") defaultValue.colorValue = ""
+    if(generateForm == "color") defaultValue.colorValue = ""
 
     // set urls
     let url = adminRoutes.category
-    if(generateForm == "colors") url = adminRoutes.colors
+    if(generateForm == "color") url = adminRoutes.colors
     if(generateForm == "sizes") url = adminRoutes.sizes
 
     // change for updates
@@ -47,19 +47,19 @@ const CategoryColorSizeForm = ({
         // add or update
         if(updating){
             if (generateForm == "category") return updateCategories(result.data)
-            if (generateForm == "colors") return updateColors(result.data)
+            if (generateForm == "color") return updateColors(result.data)
             return updateSizes(result.data)
         }
         
-        if(generateForm == "category") return addCategories(result.data)
-        if(generateForm == "colors") return addColors(result.data)
-        return addSizes(result.data)
+        if(generateForm == "category") return addCategories([result.data])
+        if(generateForm == "color") return addColors([result.data])
+        return addSizes([result.data])
     }
 
 
 
     return (
-        <div className="w-[500px] h-auto max-w-[calc(100%)] p-10 rounded-lg bg-white shadow">
+        <div className="w-[500px] h-auto max-w-[calc(100%)] p-3 lg:p-10 rounded-lg bg-white shadow">
             <ManualForm
                 formId={`${generateForm}-form`}
                 buttonText="Save"

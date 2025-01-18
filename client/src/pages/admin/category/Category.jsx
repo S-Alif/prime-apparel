@@ -1,22 +1,13 @@
-import CategoryColorSizeForm from '@/components/CategoryColorSizeForm'
-import Section from '@/components/tags/Section'
-import React from 'react'
+import CategoryColorSizePage from '@/components/categoryColorSize/CategoryColorSizePage'
+import productSpecStore from '@/stores/productSpecStore'
 
 const Category = () => {
 
+  const {category} = productSpecStore()
+  console.log(category)
 
   return (
-    <section className="w-full h-auto" id="category-page">
-      <Section
-        id="category-form"
-        title="Category"
-      >
-        <CategoryColorSizeForm
-          generateForm="category"
-          updating={false}
-        />
-      </Section>
-    </section>
+    <CategoryColorSizePage page="category" data={category}  />
   )
 }
 
