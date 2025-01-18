@@ -10,15 +10,15 @@ const UserLayout = ({ admin = false }) => {
 
   const {user, sidebarActive, toggleSidebar} = userStore()
 
-  // auth checks here
-  if(admin && !user){ //admin auth
-    return <Navigate to={"/login"} />
-  }
-
   // if not admin route change side bar
   useEffect(() => {
     if(!admin && sidebarActive) toggleSidebar()
   }, [])
+
+  // auth checks here
+  if (admin && !user) { //admin auth
+    return <Navigate to={"/login"} />
+  }
 
   return (
     <section className={`min-h-screen ${admin ? "bg-[#f5f6fa]" : "bg-white"}`} id={admin ? "admin-pages" : "user-pages"}>

@@ -2,11 +2,11 @@ import { create } from "zustand"
 
 // removing document
 const removeDoc = (array, id) => {
-    return array.filter((e) => e._id != id)
+    return array.filter((e) => e?._id != id)
 }
 // updating document array
 const updateDoc = (array, updatedDoc) => {
-    return array.map((e) => e._id == updatedDoc._id ? updatedDoc : e)
+    return array.map((e) => e?._id == updatedDoc?._id ? updatedDoc : e)
 }
 
 // store
@@ -17,7 +17,7 @@ const productSpecStore = create((set) => ({
 
     // category
     addCategories: (category = []) => set((state) => ({
-        category: [...state.category, ...category]
+        category: [...state.category, category]
     })),
     removeCategories: (id) => set((state) => ({
         category: removeDoc(state.category, id)
@@ -28,7 +28,7 @@ const productSpecStore = create((set) => ({
 
     // colors
     addColors: (color = []) => set((state) => ({
-        colors: [...state.colors, ...color]
+        colors: [...state.colors, color]
     })),
     removeColors: (id) => set((state) => ({
         colors: removeDoc(state.colors, id)
@@ -39,7 +39,7 @@ const productSpecStore = create((set) => ({
 
     // sizes
     addSizes: (size = []) => set((state) => ({
-        sizes: [...state.sizes, ...size]
+        sizes: [...state.sizes, size]
     })),
     removeSizes: (id) => set((state) => ({
         sizes: removeDoc(state.sizes, id)

@@ -13,7 +13,7 @@ const GenerateInputField = ({
 }) => {
     return (
         <div className="mb-8">
-            <p className="text-[18px] pb-3">{fieldLabel}</p>
+            <p className="text-[18px] pb-3 capitalize">{fieldLabel}</p>
             <Input
                 type={fieldType}
                 name={name}
