@@ -40,14 +40,14 @@ p{
 .admin-sidebar-menu{
     @apply inline-block w-[200px] relative pl-5;
 }
-.admin-sidebar-menu.active, .admin-sidebar-menu:hover{
+.admin-sidebar-menu.active{
     @apply !text-white;
 }
 .admin-sidebar-menu.active::after, .admin-sidebar-menu:hover::after{
     content: "";
-    @apply w-2 h-full absolute top-0 left-0 bg-primary;
+    @apply w-2 h-full absolute top-0 left-0 bg-primary rounded-r-md;
 }
-.admin-sidebar-menu.active::before, .admin-sidebar-menu:hover::before {
+.admin-sidebar-menu.active::before {
     content: "";
-    @apply w-[200px] h-full absolute top-0 left-[20px] bg-primary -z-10;
+    @apply w-[200px] h-full absolute top-0 left-[20px] bg-primary -z-10 rounded-md;
 }
