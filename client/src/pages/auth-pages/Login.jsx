@@ -1,5 +1,5 @@
 import apiHandler from "@/api/apiHandler"
-import AuthPagesLayout from "@/components/AuthPagesLayout"
+import AuthPagesLayout from "@/components/layouts/AuthPagesLayout"
 import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
 import { buttonVariants } from "@/components/ui/button"
@@ -31,7 +31,7 @@ const Login = () => {
         successToast("Login successful")
         formRef.current.resetForm()
 
-        if(result.data.role == 1999) navigate("/admin/category/add", {replace: true})
+        if(result.data.role == 1999) navigate("/admin/category/", {replace: true})
     }
 
     return (

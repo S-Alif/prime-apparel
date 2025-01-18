@@ -1,5 +1,5 @@
 import apiHandler from "@/api/apiHandler"
-import AuthPagesLayout from "@/components/AuthPagesLayout"
+import AuthPagesLayout from "@/components/layouts/AuthPagesLayout"
 import { Button } from "@/components/ui/button"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp"
 import { patchMethod, postMethod, publicRoutes } from "@/constants/apiConstants"

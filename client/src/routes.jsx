@@ -4,10 +4,10 @@ import Signup from "./pages/auth-pages/Signup"
 import FindAccount from "./pages/auth-pages/FindAccount"
 import Verification from "./pages/auth-pages/Verification"
 import CreateNewPass from "./pages/auth-pages/CreateNewPass"
+import Category from "./pages/admin/category/Category"
 
 // layouts
 import UserLayout from "./components/layouts/UserLayout"
-import AddCategory from "./pages/admin/category/AddCategory"
 
 const adminPath = "/admin"
 
@@ -53,12 +53,7 @@ const routes = [
         children: [
             {
                 path: `${adminPath}/category`,
-                children: [
-                    {
-                        path: `${adminPath}/category/add`,
-                        element: <AddCategory />,
-                    }
-                ]
+                element: <Category />,
             }
         ]
     }

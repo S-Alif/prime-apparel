@@ -6,7 +6,7 @@ html{
 body{
     width: 100%;
     height: auto;
-    overflow-x: hidden;
+    overflow-x: hidden!important;
     font-family: var(--theme-font);
 }
 
@@ -34,4 +34,20 @@ p{
 }
 .navs-and-search.open{
     @apply max-h-[500px] transition-all duration-300 border-b-2 border-b-gray-300 py-5 lg:border-b-0;
+}
+
+/*sidebar nav links*/
+.admin-sidebar-menu{
+    @apply inline-block w-[200px] relative pl-5;
+}
+.admin-sidebar-menu.active, .admin-sidebar-menu:hover{
+    @apply !text-white;
+}
+.admin-sidebar-menu.active::after, .admin-sidebar-menu:hover::after{
+    content: "";
+    @apply w-2 h-full absolute top-0 left-0 bg-primary;
+}
+.admin-sidebar-menu.active::before, .admin-sidebar-menu:hover::before {
+    content: "";
+    @apply w-[200px] h-full absolute top-0 left-[20px] bg-primary -z-10;
 }

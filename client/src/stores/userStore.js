@@ -9,6 +9,12 @@ const UserStore = create((set) => ({
     logout: () => set((state) => ({
         user: null
     })),
+
+    // for sidebar
+    sidebarActive: true,
+    toggleSidebar: () => set((state) => ({
+        sidebarActive: !state.sidebarActive
+    }))
 }))
 
 export default UserStore

@@ -1,5 +1,5 @@
 import apiHandler from "@/api/apiHandler"
-import AuthPagesLayout from "@/components/AuthPagesLayout"
+import AuthPagesLayout from "@/components/layouts/AuthPagesLayout"
 import ManualForm from "@/components/manual-form/ManualForm"
 import ManualInput from "@/components/manual-form/ManualInput"
 import { patchMethod, publicRoutes } from "@/constants/apiConstants"
