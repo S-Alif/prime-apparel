@@ -5,6 +5,7 @@ import FindAccount from "./pages/auth-pages/FindAccount"
 import Verification from "./pages/auth-pages/Verification"
 import CreateNewPass from "./pages/auth-pages/CreateNewPass"
 import Category from "./pages/admin/category/Category"
+import Colors from "./pages/admin/colors/Colors"
 
 // layouts
 import UserLayout from "./components/layouts/UserLayout"
@@ -54,7 +55,11 @@ const routes = [
             {
                 path: `${adminPath}/category`,
                 element: <Category />,
-            }
+            },
+            {
+                path: `${adminPath}/colors`,
+                element: <Colors />,
+            },
         ]
     }
 ]

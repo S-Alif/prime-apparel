@@ -27,7 +27,7 @@ const CategoryColorSizePage = ({page = "category", data = []}) => {
                     {
                         data.length > 0 &&
                         <CategoryColorSizeTable 
-                            page="category"
+                            page={page}
                             data={data}
                         />
                     }

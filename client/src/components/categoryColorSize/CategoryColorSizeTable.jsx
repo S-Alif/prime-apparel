@@ -13,7 +13,6 @@ import CategoryColorSizeForm from "./CategoryColorSizeForm"
 import { adminRoutes, deleteMethod } from "@/constants/apiConstants"
 import apiHandler from "@/api/apiHandler"
 import { successToast } from "@/helpers/toasts"
-import { useState } from "react"
 import { DialogClose } from "../ui/dialog"
 import productSpecStore from "@/stores/productSpecStore"
 
@@ -26,6 +25,7 @@ const CategoryColorSizeTable = ({ data = [], page = "category" }) => {
     if (page == "color") deleteUrl = adminRoutes.colors
     if (page == "sizes") deleteUrl = adminRoutes.sizes
 
+    // remove data
     const removeData = async (id) => {
         let result = await apiHandler(`${deleteUrl}/${id}`, deleteMethod)
         if(!result) return

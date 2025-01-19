@@ -42,11 +42,14 @@ const ManualForm = forwardRef(({
 
                 {
                     React.Children.map(children, (child) => {
-                        return React.cloneElement(child, {
-                            ...child.props,
-                            defaultValue: values[child.props.name],
-                            onChange: handleChange,
-                        })
+                        if(child){
+                            return React.cloneElement(child, {
+                                ...child.props,
+                                defaultValue: values[child.props.name],
+                                onChange: handleChange,
+                            })
+                        }
+                        return
                     })
                 }
 

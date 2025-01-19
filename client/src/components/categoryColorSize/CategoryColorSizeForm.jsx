@@ -90,9 +90,16 @@ const CategoryColorSizeForm = ({
                     placeholder={`Enter ${generateForm} name`}
                 />
 
-                {/* {
-                    generateForm == "colors" && <></>
-                } */}
+                {
+                    generateForm == "color" &&
+                    <ManualInput 
+                        field="input"
+                        fieldType="color"
+                        fieldLabel={`${generateForm} value`}
+                        name="colorValue"
+                        placeholder={`Enter ${generateForm} value`}
+                    />
+                }
 
             </ManualForm>
         </div>
