@@ -22,12 +22,10 @@ const CategoryColorSizeForm = ({
         ...(generateForm === "color" && { colorValue: "" }) 
     }
     const [defaultValue, setDefaultValue] = useState(defaultValueObj)
-    console.log(defaultValue)
 
     // updating default value with update signal
     useEffect(() => {
         if (updating && data) {
-            console.log(data)
             setDefaultValue({
                 name: data?.name || "",
                 ...(generateForm === "color" && { colorValue: data?.colorValue || "" }),
@@ -48,7 +46,8 @@ const CategoryColorSizeForm = ({
 
     // submit form
     const formSubmit = async (e) => {
-        if(e.name.trim() == "" || e.name.trim().length < 3){
+        if(generateForm == "sizes" && e.name.trim().length < 1) return failToast("Name should be at least 1 characters")
+        if (generateForm != "sizes" && e.name.trim().length < 3){
             return failToast("Name should be at least 3 characters")
         }
 

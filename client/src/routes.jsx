@@ -6,6 +6,7 @@ import Verification from "./pages/auth-pages/Verification"
 import CreateNewPass from "./pages/auth-pages/CreateNewPass"
 import Category from "./pages/admin/category/Category"
 import Colors from "./pages/admin/colors/Colors"
+import Sizes from "./pages/admin/sizes/Sizes"
 
 // layouts
 import UserLayout from "./components/layouts/UserLayout"
@@ -59,6 +60,10 @@ const routes = [
             {
                 path: `${adminPath}/colors`,
                 element: <Colors />,
+            },
+            {
+                path: `${adminPath}/sizes`,
+                element: <Sizes />,
             },
         ]
     }
