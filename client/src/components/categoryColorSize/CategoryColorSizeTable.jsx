@@ -43,8 +43,8 @@ const CategoryColorSizeTable = ({ data = [], page = "category" }) => {
                 <TableHeader>
                     <TableRow>
                         <TableHead className="font-bold text-xl">#</TableHead>
-                        <TableHead className={`font-bold text-xl pl-5 ${page == "color" ? "w-[33%]" : "w-[80%]"}`}>Name</TableHead>
-                        {page == "color" && <TableHead className="font-bold text-xl">Color Value</TableHead>}
+                        <TableHead className={`font-bold text-xl pl-5 ${page == "color" ? "w-[40%]" : "w-[80%]"}`}>Name</TableHead>
+                        {page == "color" && <TableHead className="font-bold text-xl w-[40%]">Color Value</TableHead>}
                         <TableHead className="font-bold text-xl pl-5">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -54,8 +54,18 @@ const CategoryColorSizeTable = ({ data = [], page = "category" }) => {
                             <TableRow key={index} className="h-12">
                                 <TableCell className="text-xl font-bold border-r">{index+1}</TableCell>
                                 <TableCell className="text-xl pl-5 border-r">{e.name}</TableCell>
-                                {page == "color" && <TableCell className="border-r">{e?.colorValue}</TableCell>}
-                                <TableCell className="pl-5 flex gap-3">
+                                {
+                                    page == "color" && 
+                                    <TableCell className="border-r">
+                                        <div className="flex gap-4 items-center">
+                                            <div className="w-10 h-10 rounded-full border" style={{backgroundColor: e?.colorValue}}></div>
+                                            <p>{e?.colorValue}</p>
+                                        </div>
+                                    </TableCell>
+                                }
+
+                                {/* actions */}
+                                <TableCell className="pl-5 flex gap-3 items-center">
                                     <CategoryColorSizeDialog 
                                         trigger={<Button size="icon" className="!bg-green-500"><Edit3 /></Button>}
                                         title={`Update ${page}`}

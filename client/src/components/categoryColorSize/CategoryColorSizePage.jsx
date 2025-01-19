@@ -6,7 +6,7 @@ import CategoryColorSizeTable from "./CategoryColorSizeTable"
 const CategoryColorSizePage = ({page = "category", data = []}) => {
 
     return (
-        <section className="w-full h-auto" id="category-page">
+        <section className="w-full h-auto pb-16" id="category-page">
 
             {/* category form */}
             <Section id="category-form" title={page}>
