@@ -14,6 +14,15 @@ p{
     @apply text-[17px];
 }
 
+/* page wrapper */
+.page-wrapper{
+    @apply w-full h-auto pb-16;
+}
+
+/* section content wrapper */
+.content-wrapper{
+    @apply p-3 lg:p-10 rounded-lg bg-white shadow h-auto;
+}
 
 /* for containers */
 .container{

@@ -31,7 +31,7 @@ const sidebarMenuLinks = [
     {
         icon: <BaggageClaim />,
         label: "Products",
-        to: "/admin/products"
+        to: "/admin/products?category=all&color=all&limit=10&page=1"
     },
 ]
 

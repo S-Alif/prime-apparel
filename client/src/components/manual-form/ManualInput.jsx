@@ -41,21 +41,24 @@ const GenerateSelectField = ({
 
     return (
         <div>
-            <label htmlFor={`${name}-field`}>{fieldLabel}</label>
+            <p className="text-[18px] pb-3 capitalize">{fieldLabel}</p>
             <Select 
                 id={`${name}-field`}
-                value={defaultValue || ""}
-                onValueChange={(e) => onChange(name, e)}
+                value={value}
+                onValueChange={(e) => {
+                    onChange(name, e)
+                    setValue(e)
+                }}
                 name={name}
             >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-full">
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
                         {
                             selectValues.map((e, index) => (
-                                <SelectItem key={index} value={e?._id}>{e?.name}</SelectItem>
+                                <SelectItem className="hover:cursor-pointer hover:!bg-primary hover:!text-white" key={index} value={e?._id}>{e?.name}</SelectItem>
                             ))
                         }
                     </SelectGroup>
@@ -73,6 +76,7 @@ const ManualInput = ({
     name = "giveAName",
     placeholder = "A placeholder",
     defaultValue = "",
+    selectValues = [],
     onChange
 }) => {
 
