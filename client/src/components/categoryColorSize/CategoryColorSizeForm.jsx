@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import ManualForm from "../manual-form/ManualForm"
 import { adminRoutes, patchMethod, postMethod } from "@/constants/apiConstants"
 import productSpecStore from "@/stores/productSpecStore"
@@ -16,11 +16,25 @@ const CategoryColorSizeForm = ({
     const { addCategories, updateCategories, addColors, updateColors, addSizes, updateSizes } = productSpecStore()
     const formRef = useRef(null)
 
-    // set default values
-    let defaultValue = {
-        name: ""
+    // setting default value
+    let defaultValueObj = { 
+        name: "", 
+        ...(generateForm === "color" && { colorValue: "" }) 
     }
-    if(generateForm == "color") defaultValue.colorValue = ""
+    const [defaultValue, setDefaultValue] = useState(defaultValueObj)
+    console.log(defaultValue)
+
+    // updating default value with update signal
+    useEffect(() => {
+        if (updating && data) {
+            console.log(data)
+            setDefaultValue({
+                name: data?.name || "",
+                ...(generateForm === "color" && { colorValue: data?.colorValue || "" }),
+            })
+        }
+    }, [updating, data, generateForm])
+
 
     // set urls
     let url = adminRoutes.category
@@ -30,7 +44,6 @@ const CategoryColorSizeForm = ({
     // change for updates
     if (updating) {
         url = `${url}/${data?._id}`
-        defaultValue = data
     }
 
     // submit form
@@ -43,6 +56,7 @@ const CategoryColorSizeForm = ({
         if(!result) return
         successToast(`${generateForm} saved`)
         formRef.current.resetForm()
+        setDefaultValue(defaultValueObj)
 
         // add or update
         if(updating){
@@ -59,7 +73,7 @@ const CategoryColorSizeForm = ({
 
 
     return (
-        <div className="w-[500px] h-auto max-w-[calc(100%)] p-3 lg:p-10 rounded-lg bg-white shadow">
+        <div className="">
             <ManualForm
                 formId={`${generateForm}-form`}
                 buttonText="Save"

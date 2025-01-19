@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react"
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { Button } from "../ui/button"
 import React from "react"
 
@@ -21,6 +21,10 @@ const ManualForm = forwardRef(({
             setValues(defaultValues)
         }
     }))
+
+    useEffect(() => {
+        setValues(defaultValues)
+    }, [defaultValues])
 
     const handleChange = (name, value) => {
         setValues(prev => ({ ...prev, [name]: value }));

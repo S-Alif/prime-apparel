@@ -10,10 +10,12 @@ const CategoryColorSizePage = ({page = "category", data = []}) => {
 
             {/* category form */}
             <Section id="category-form" title={page}>
-                <CategoryColorSizeForm
-                    generateForm={page}
-                    updating={false}
-                />
+                <div className="w-[500px] h-auto max-w-[calc(100%)] p-3 lg:p-10 rounded-lg bg-white shadow">
+                    <CategoryColorSizeForm
+                        generateForm={page}
+                        updating={false}
+                    />
+                </div>
             </Section>
 
             {/* category list */}
