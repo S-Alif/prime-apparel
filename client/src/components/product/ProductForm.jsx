@@ -1,9 +1,13 @@
 import productSpecStore from "@/stores/productSpecStore"
 import ManualForm from "../manual-form/ManualForm"
 import ManualInput from "../manual-form/ManualInput"
+import { adminRoutes, patchMethod, postMethod } from "@/constants/apiConstants"
+import apiHandler from "@/api/apiHandler"
+import { failToast, successToast } from "@/helpers/toasts"
+import { validateProduct } from "@/helpers/validationHelper"
 
 
-const ProductForm = ({ data = {}, updating = false }) => {
+const ProductForm = ({ data = {}, updating = false, returnData }) => {
 
     const {category, colors} = productSpecStore()
 
@@ -20,9 +24,16 @@ const ProductForm = ({ data = {}, updating = false }) => {
         defaultValues = {...data}
     }
 
+    let url = adminRoutes.products
+    if (updating) url = `${adminRoutes.products}/${data?._id}`
+
     // submit update or add product
     const formSubmit = async (e) => {
-        console.log(e)
+        if(!validateProduct(e, updating)) return
+
+        let result = await apiHandler(url, updating ? patchMethod : postMethod, e)
+        if(!result) return
+        successToast(updating ? "Product updated" : "Product added")
     }
 
 
@@ -66,6 +77,40 @@ const ProductForm = ({ data = {}, updating = false }) => {
                         placeholder="Enter product price"
                     />
                 </div>
+
+                {
+                    updating && 
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <ManualInput
+                            field="select"
+                            fieldLabel="Published"
+                            name="published"
+                            selectValues={[
+                                {_id: "true", name: "Yes"},
+                                {_id: "false", name: "NO"}
+                            ]}
+                            placeholder="Publish status"
+                        />
+                        <ManualInput
+                            field="select"
+                            fieldLabel="Featured"
+                            name="featured"
+                            selectValues={[
+                                {_id: "true", name: "Yes"},
+                                {_id: "false", name: "NO"}
+                            ]}
+                            placeholder="Featured status"
+                        />
+                        <ManualInput
+                            field="input"
+                            fieldType="text"
+                            fieldLabel="Discount"
+                            name="discount"
+                            placeholder="Enter discount percent"
+                            defaultValue="0"
+                        />
+                    </div>
+                }
 
                 <ManualInput 
                     field="richText"

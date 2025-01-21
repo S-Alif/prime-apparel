@@ -39,7 +39,7 @@ export default function RichTextEditor({defaultValue, onChange}) {
     content: defaultValue,
     editorProps: {
       attributes: {
-        class: "min-h-[300px] border focus:border-primary outline-none rounded-md bg-slate-50 py-2 px-3",
+        class: "min-h-[300px] border focus:border-primary outline-none rounded-md py-2 px-3",
       },
     },
     onUpdate: ({ editor }) => {
