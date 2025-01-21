@@ -51,7 +51,7 @@ const GenerateSelectField = ({
                 }}
                 name={name}
             >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full h-12">
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>

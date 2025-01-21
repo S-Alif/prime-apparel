@@ -26,13 +26,35 @@ const ManualForm = forwardRef(({
         setValues(defaultValues)
     }, [defaultValues])
 
+    // handle input value changes
     const handleChange = (name, value) => {
-        setValues(prev => ({ ...prev, [name]: value }));
+        setValues(prev => ({ ...prev, [name]: value }))
     }
 
+    // handle submit
     const handleSubmit = (e) => {
         e.preventDefault()
         onSubmit(values)
+    }
+
+    // add other handlers to the input children
+    const addHandlerToChildren = (children) => {
+        return React.Children.map(children, (child) => {
+            if(!React.isValidElement(child)) return child
+
+            if(child.props?.children){
+                return React.cloneElement(child, {
+                    ...child.props,
+                    children: addHandlerToChildren(child.props.children),
+                })
+            }
+
+            return React.cloneElement(child, {
+                ...child.props,
+                defaultValue: values[child.props.name],
+                onChange: handleChange,
+            })
+        })
     }
 
 
@@ -41,16 +63,7 @@ const ManualForm = forwardRef(({
             <form id={formId} ref={formRef} onSubmit={handleSubmit}>
 
                 {
-                    React.Children.map(children, (child) => {
-                        if(child){
-                            return React.cloneElement(child, {
-                                ...child.props,
-                                defaultValue: values[child.props.name],
-                                onChange: handleChange,
-                            })
-                        }
-                        return
-                    })
+                    addHandlerToChildren(children)
                 }
 
                 <Button type="submit" size={buttonSize} variant={buttonVariant}>{buttonText}</Button>
