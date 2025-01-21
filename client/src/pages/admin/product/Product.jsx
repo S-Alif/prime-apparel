@@ -2,7 +2,7 @@ import apiHandler from "@/api/apiHandler"
 import ManualInput from "@/components/manual-form/ManualInput"
 import PaginationBox from "@/components/PaginationBox"
 import Section from "@/components/tags/Section"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
     Table,
     TableBody,
@@ -14,9 +14,10 @@ import {
 import { adminRoutes, getMethod } from "@/constants/apiConstants"
 import { successToast } from "@/helpers/toasts"
 import productSpecStore from "@/stores/productSpecStore"
+import { ListFilter } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Edit3, Info, X } from "react-feather"
-import { useSearchParams } from "react-router"
+import { NavLink, useSearchParams } from "react-router"
 
 const Product = () => {
 
@@ -31,6 +32,7 @@ const Product = () => {
 
     const [product, setProduct] = useState([])
     const [totalProducts, setTotalProducts] = useState(0)
+    const [displayFilters, setDisplayFilters] = useState(false)
 
     // updating the url
     const updateUrl = (name, filterValue) => {
@@ -59,41 +61,53 @@ const Product = () => {
             >
                 <div className="content-wrapper">
 
-                    {/* filter fields */}
-                    <div className="pb-16">
-                        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <ManualInput
-                                field="select"
-                                selectValues={[{ _id: "all", name: "All" }, ...category]}
-                                defaultValue="all"
-                                fieldLabel="Select category"
-                                name="category"
-                                onChange={updateUrl}
-                            />
+                    {/* filter button and add product page link */}
+                    <div className="pb-10 flex justify-between items-center">
+                        <Button size="lg" variant="outline" onClick={() => setDisplayFilters(prev => !prev)}>
+                            Filters <ListFilter />
+                        </Button>
 
-                            <ManualInput
-                                field="select"
-                                selectValues={[{ _id: "all", name: "All" }, ...colors]}
-                                defaultValue="all"
-                                fieldLabel="Select color"
-                                name="color"
-                                onChange={updateUrl}
-                            />
-
-                            <ManualInput
-                                field="select"
-                                selectValues={[
-                                    { _id: "30", name: "30" },
-                                    { _id: "50", name: "50" },
-                                    { _id: "80", name: "80" },
-                                ]}
-                                defaultValue="30"
-                                fieldLabel="Amount of products"
-                                name="limit"
-                                onChange={updateUrl}
-                            />
-                        </div>
+                        <NavLink to="/admin/products/add" className={buttonVariants({size:"lg", variant: "default"})}>Add Product</NavLink>
                     </div>
+
+                    {/* filter fields */}
+                    {
+                        displayFilters &&
+                        <div className="pb-16">
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <ManualInput
+                                    field="select"
+                                    selectValues={[{ _id: "all", name: "All" }, ...category]}
+                                    defaultValue="all"
+                                    fieldLabel="Select category"
+                                    name="category"
+                                    onChange={updateUrl}
+                                />
+
+                                <ManualInput
+                                    field="select"
+                                    selectValues={[{ _id: "all", name: "All" }, ...colors]}
+                                    defaultValue="all"
+                                    fieldLabel="Select color"
+                                    name="color"
+                                    onChange={updateUrl}
+                                />
+
+                                <ManualInput
+                                    field="select"
+                                    selectValues={[
+                                        { _id: "30", name: "30" },
+                                        { _id: "50", name: "50" },
+                                        { _id: "80", name: "80" },
+                                    ]}
+                                    defaultValue="30"
+                                    fieldLabel="Amount of products"
+                                    name="limit"
+                                    onChange={updateUrl}
+                                />
+                            </div>
+                        </div>
+                    }
 
                     {/* table */}
                     <Table>

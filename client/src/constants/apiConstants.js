@@ -28,4 +28,6 @@ export const adminRoutes = {
     sizes: `${baseUrl}/api/v1/${adminEndpoint}/size`,
     // products
     products: `${baseUrl}/api/v1/${adminEndpoint}/product`,
+    productVariation: `${baseUrl}/api/v1/${adminEndpoint}/product/variation`,
+    productImage: `${baseUrl}/api/v1/${adminEndpoint}/product/image`,
 }

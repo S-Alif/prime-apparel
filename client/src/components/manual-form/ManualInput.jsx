@@ -1,3 +1,4 @@
+import RichTextEditor from "../RichTextEditor/Index"
 import { Input } from "../ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
 import { useState } from "react"
@@ -68,6 +69,24 @@ const GenerateSelectField = ({
     )
 }
 
+// rich text editor
+const GenerateRichTextEditor = ({
+    fieldLabel,
+    name,
+    defaultValue,
+    onChange
+}) => {
+    return(
+        <div className="mb-8">
+            <p className="text-[18px] pb-3 capitalize">{fieldLabel}</p>
+            <RichTextEditor 
+                defaultValue={defaultValue}
+                onChange={(e) => onChange(name, e)}
+            />
+        </div>
+    )
+}
+
 // default exported manual input component
 const ManualInput = ({
     field = "input",
@@ -100,6 +119,16 @@ const ManualInput = ({
             defaultValue={defaultValue}
             name={name}
             placeholder={placeholder}
+            onChange={onChange}
+        />
+    }
+
+    // return rich text editor
+    if(field == "richText"){
+        return <GenerateRichTextEditor
+            fieldLabel={fieldLabel}
+            name={name}
+            defaultValue={defaultValue}
             onChange={onChange}
         />
     }
