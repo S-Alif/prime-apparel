@@ -58,10 +58,11 @@ const authService = {
         let email = req?.body?.email
         if(!email) throw new apiError(400, "No email provided")
         
+        const user = await userModel.findOne({ email: email })
+        if (!user) throw new apiError(400, "Account does not exist")
+
         let otpCode = Math.floor(100000 + Math.random() * 900000)
         const createOtp = await otpModel.create({email, otpCode})
-        const user = await userModel.findOne({email: email})
-        if(!user) throw new apiError(400, "Account does not exist")
 
         let sendMail = await mailHelper(email, "Account verification", otpMail(user?._doc?.fName, user?._doc?.lName, otpCode))
         
@@ -108,7 +109,7 @@ const authService = {
         userData.pass = req?.body?.newPass
         await userData.save()
 
-        await mailHelper(id ? req?.headers?.email : req?.body?.email, "Account verification", passwordChanged(userData?._doc?.fName, userData?._doc?.lName, req?.body?.date))
+        await mailHelper(id ? req?.headers?.email : req?.body?.email, "Password changed", passwordChanged(userData?._doc?.fName, userData?._doc?.lName, req?.body?.date))
 
         return new apiResponse(200, "Password updated successfully")
     }

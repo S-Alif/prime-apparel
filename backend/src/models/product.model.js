@@ -21,6 +21,11 @@ const productSchema = new mongoose.Schema({
         required: true,
         ref: "category"
     },
+    color: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: "color"
+    },
     totalRating: {
         type: Number,
         default: 0,

@@ -20,7 +20,7 @@ const categoryAndSizeService = {
         if (!id) throw new apiError(400, "Cannot update data")
 
         const data = req?.body
-        let validate = isValidData(validator.colorData, data)
+        let validate = isValidData(validator.categoryAndSize, data)
         if (!validate) throw new apiError(400, "Please enter all the data")
 
         let check = await model.countDocuments(data)

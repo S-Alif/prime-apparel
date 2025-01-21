@@ -8,7 +8,7 @@ export class apiError extends Error{
     super(data)
     this.code = statusCode
     this.data = data
-    this.success = false
+    this.success = "failed"
     
     if(process.env.NODE_ENV !== "production"){
         this.errors = errors

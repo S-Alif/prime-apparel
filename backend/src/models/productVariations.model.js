@@ -11,11 +11,6 @@ const productVariationSchema = new mongoose.Schema({
         required: true,
         ref: "size"
     },
-    color: {
-        type: mongoose.Types.ObjectId,
-        required: true,
-        ref: "color"
-    },
     stock: {
         type: Number,
         required: true,

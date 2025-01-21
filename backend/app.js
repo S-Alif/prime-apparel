@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true, limit: "6mb" }))
 
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
-  credentils: true
+  credentials: true
 }))
 app.use(helmet())
 app.use(hpp())

@@ -8,6 +8,8 @@ import validator, {isValidData} from '../schemas/dataValidator.schema.js'
 import { roles } from '../constants/constants.js'
 import { uploadProductImage } from '../utils/fileHandler.util.js'
 
+const ObjectId = mongoose.Types.ObjectId
+
 
 export const productService = {
 
@@ -47,13 +49,24 @@ export const productService = {
         const limit = parseInt(req.query?.limit)
         const skip = (page - 1) * limit
         const category = req.query?.category
+        const color = req.query?.color
 
-        const matchStage = category && category !== "all"
-            ? { category: new mongoose.Types.ObjectId(category), ...(!role || role == roles.user ? {published: true} : {}) }
-            : { ...(!role || role == roles.user ? { published: true } : {}) }
+        const isAdmin = (role && role == roles.admin)
 
+        // matching query
+        let matchFilter = isAdmin ? {} : { published: true }
+
+        if (category && category !== "all") {
+            matchFilter.category = new ObjectId(category)
+        }
+
+        if (color && color !== "all") {
+            matchFilter.color = new ObjectId(color) 
+        }
+
+        // aggregation pipeline
         const pipeline = [
-            { $match: matchStage },
+            { $match: matchFilter },
             { $sort: { createdAt: -1 } },
             { $skip: skip },
             { $limit: limit },
@@ -65,6 +78,16 @@ export const productService = {
                     as: "categories"
                 }
             },
+            { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: "colors",
+                    localField: "color",
+                    foreignField: "_id",
+                    as: "color"
+                }
+            },
+            { $unwind: { path: "$color", preserveNullAndEmptyArrays: true } },
             {
                 $lookup: {
                     from: "productimages",
@@ -73,32 +96,37 @@ export const productService = {
                     as: "images"
                 }
             },
-            { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
             {
                 $project: {
+                    _id: 1,
                     name: 1,
-                    detail: 1,
                     price: 1,
                     category: {
                         _id: "$categories._id",
                         name: "$categories.name"
                     },
-                    images: "$images.url",
-                    discount: 1,
-                    totalRatings: 1,
-                    reviewCount: 1,
+                    detail: 1,
+                    color: {
+                        _id: "$color._id",
+                        name: "$color.name",
+                        colorValue: "$color.colorValue",
+                    },
+                    images: { $arrayElemAt: ["$images.url", 0] },
                     currentRating: 1,
-                    ...(role && role == roles.admin && {
+                    ...(isAdmin && {
+                        totalRating: 1,
+                        reviewCount: 1,
                         published: 1,
+                        discount: 1,
                         featured: 1
-                    }),
-                    createdAt: 1
+                    })
                 }
             }
         ]
 
-        let result = await productModel.aggregate(pipeline)        
-        return new apiResponse(200, result)
+        let result = await productModel.aggregate(pipeline)
+        let totalProducts = await productModel.countDocuments(matchFilter)
+        return new apiResponse(200, {totalProducts: totalProducts, products: result})
     },
 
     // get a product by id
@@ -120,6 +148,15 @@ export const productService = {
                 }
             },
             { $unwind: { path: "$categories", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: "colors",
+                    localField: "color",
+                    foreignField: "_id",
+                    as: "colors"
+                }
+            },
+            { $unwind: { path: "$colors", preserveNullAndEmptyArrays: true } },
             {
                 $lookup: {
                     from: "productimages",
@@ -161,29 +198,34 @@ export const productService = {
                         _id: "$categories._id",
                         name: "$categories.name"
                     },
+                    color: {
+                        _id: "$colors._id",
+                        name: "$colors.name",
+                        colorValue: "$colors.colorValue"
+                    },
                     images: !isAdmin ? "$images.url" : "$images",
-                    // variations: {
-                    //     $map: {
-                    //         input: "$variations",
-                    //         as: "variation",
-                    //         in: {
-                    //             _id: "$$variation._id",
-                    //             size: {
-                    //                 $arrayElemAt: [
-                    //                     "$variationSizes",
-                    //                     { $indexOfArray: ["$variations.size", "$$variation.size.name"] }
-                    //                 ]
-                    //             },
-                    //             color: {
-                    //                 $arrayElemAt: [
-                    //                     "$variationColors",
-                    //                     { $indexOfArray: ["$variations.color", "$$variation.color.name"] }
-                    //                 ]
-                    //             },
-                    //             stock: "$$variation.stock"
-                    //         }
-                    //     }
-                    // },
+                    variations: {
+                        $map: {
+                            input: "$variations",
+                            as: "variation",
+                            in: {
+                                _id: "$$variation._id",
+                                size: {
+                                    $arrayElemAt: [
+                                        "$variationSizes",
+                                        { $indexOfArray: ["$variations.size", "$$variation.size.name"] }
+                                    ]
+                                },
+                                color: {
+                                    $arrayElemAt: [
+                                        "$variationColors",
+                                        { $indexOfArray: ["$variations.color", "$$variation.color.name"] }
+                                    ]
+                                },
+                                stock: "$$variation.stock"
+                            }
+                        }
+                    },
                     createdAt: 1
                 }
             }

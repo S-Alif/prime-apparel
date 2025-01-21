@@ -51,14 +51,16 @@ const validator = {
         name: Joi.string().min(2).max(100).required(),
         detail: Joi.string().min(2).max(5000).required(),
         price: Joi.number().greater(1).required(),
-        category: Joi.string().required(),
+        category: Joi.string().min(24).max(24).required(),
+        color: Joi.string().min(24).max(24).required(),
+        createdAt: Joi.string().optional(),
+        updatedAt: Joi.string().optional(),
     }),
 
     // product variation schema
     productVariation: Joi.object({
         productId: Joi.string().min(24).max(24).required(),
         size: Joi.string().min(24).max(24).required(),
-        color: Joi.string().min(24).max(24).required(),
         stock: Joi.number().greater(1).less(50000).required()
     })
 }
