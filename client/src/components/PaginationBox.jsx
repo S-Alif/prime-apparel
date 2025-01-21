@@ -1,7 +1,6 @@
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -59,9 +58,6 @@ const PaginationBox = ({ totalPage, currentPage, onPageChange }) => {
                         )
                             
                     }
-
-                    {totalPage > 5 && <PaginationEllipsis />}
-
 
 
                     <PaginationItem>

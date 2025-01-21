@@ -1,6 +1,8 @@
+import apiHandler from "@/api/apiHandler"
 import ManualInput from "@/components/manual-form/ManualInput"
 import PaginationBox from "@/components/PaginationBox"
 import Section from "@/components/tags/Section"
+import { Button } from "@/components/ui/button"
 import {
     Table,
     TableBody,
@@ -9,23 +11,28 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { adminRoutes, getMethod } from "@/constants/apiConstants"
+import { successToast } from "@/helpers/toasts"
 import productSpecStore from "@/stores/productSpecStore"
 import { useEffect, useState } from "react"
+import { Edit3, Info, X } from "react-feather"
 import { useSearchParams } from "react-router"
 
 const Product = () => {
 
-    const {category, colors, sizes} = productSpecStore()
+    const {category, colors } = productSpecStore()
 
+    // getting search params
     const [searchParams, setSearchParams] = useSearchParams()
     let productCategory = searchParams.get("category") || "all"
     let productColor = searchParams.get("color") || "all";
     let page = parseInt(searchParams.get("page") || "1", 10)
-    let limit = parseInt(searchParams.get("limit") || "10", 10)
+    let limit = parseInt(searchParams.get("limit") || "30", 10)
 
     const [product, setProduct] = useState([])
-    const [color, setColor] = useState("all")
+    const [totalProducts, setTotalProducts] = useState(0)
 
+    // updating the url
     const updateUrl = (name, filterValue) => {
         setSearchParams(prev => {
             return {...Object.fromEntries(prev), [name]: filterValue}
@@ -33,8 +40,15 @@ const Product = () => {
     }
 
     // get product data
-    // useEffect(() => {
-    // }, [page, limit, productCategory, color])
+    useEffect(() => { 
+        (async () => {
+            let result = await apiHandler(`${adminRoutes.products}?page=${page}&limit=${limit}&category=${productCategory}&color=${productColor}`, getMethod)
+            if(!result) return
+            successToast("Product fetched successfully")
+            setProduct(result.data.products)
+            setTotalProducts(result.data.totalProducts)
+        })()
+    }, [page, limit, productCategory, productColor])
 
 
     return (
@@ -69,11 +83,11 @@ const Product = () => {
                             <ManualInput
                                 field="select"
                                 selectValues={[
-                                    { _id: "10", name: "10" },
-                                    { _id: "20", name: "20" },
-                                    { _id: "40", name: "40" },
+                                    { _id: "30", name: "30" },
+                                    { _id: "50", name: "50" },
+                                    { _id: "80", name: "80" },
                                 ]}
-                                defaultValue="10"
+                                defaultValue="30"
                                 fieldLabel="Amount of products"
                                 name="limit"
                                 onChange={updateUrl}
@@ -83,25 +97,54 @@ const Product = () => {
 
                     {/* table */}
                     <Table>
-                        <TableHeader>
-                            <TableHead className="font-bold text-[17px] lg:text-xl">#</TableHead>
-                            <TableHead className="font-bold text-[17px] lg:text-xl">Product</TableHead>
-                            <TableHead className="font-bold text-[17px] lg:text-xl">Category</TableHead>
-                            <TableHead className="font-bold text-[17px] lg:text-xl">Color</TableHead>
-                            <TableHead className="font-bold text-[17px] lg:text-xl">Price</TableHead>
-                            <TableHead className="font-bold text-[17px] lg:text-xl">Published</TableHead>
-                            <TableHead className="font-bold text-[17px] lg:text-xl">Actions</TableHead>
+                        <TableHeader className="border-b">
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">#</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">Product</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">Category</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">Color</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">Price</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">Published</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">Actions</TableHead>
                         </TableHeader>
 
                         <TableBody>
-                            
+                            {
+                                product.length > 0 &&
+                                product.map((e,index) => (
+                                    <TableRow>
+                                        <TableCell className="text-[17px] border-r">{((page-1)*limit) + 1 + index}</TableCell>
+                                        <TableCell className="text-[17px] border-r">{e?.name}</TableCell>
+                                        <TableCell className="text-[17px] border-r">
+                                            <Button variant="outline" onClick={() => updateUrl("category", e?.category?._id)}>{e?.category?.name}</Button>
+                                        </TableCell>
+                                        <TableCell className="text-[17px] border-r">
+                                            <Button 
+                                                variant="ghost"
+                                                onClick={() => updateUrl("color", e?.color?._id)}
+                                            >
+                                                <div className="flex gap-4 items-center">
+                                                    <div className="w-10 h-10 rounded-full border" style={{ backgroundColor: e?.color?.colorValue }}></div>
+                                                    <p>{e?.color?.name}</p>
+                                                </div>
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell className="text-[17px] border-r">{e?.price}</TableCell>
+                                        <TableCell className="text-[17px] border-r">{e?.published ? "Yes" : "No"}</TableCell>
+                                        <TableCell className="text-[17px] flex gap-3">
+                                            <Button size="icon" className="!bg-green-500"><Edit3 /></Button>
+                                            <Button size="icon" variant="destructive"><X /></Button>
+                                            <Button size="icon" className="!bg-blue-500"><Info /></Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            }
                         </TableBody>
                     </Table>
 
                     {/* pagination */}
                     <div className="pt-16">
                         <PaginationBox
-                            totalPage={10}
+                            totalPage={Math.ceil(totalProducts / limit)}
                             currentPage={page}
                             onPageChange={(e) => updateUrl("page", e)}
                         />

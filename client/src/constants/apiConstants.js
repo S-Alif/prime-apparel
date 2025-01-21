@@ -26,4 +26,6 @@ export const adminRoutes = {
     colors: `${baseUrl}/api/v1/${adminEndpoint}/colors`,
     // sizes
     sizes: `${baseUrl}/api/v1/${adminEndpoint}/size`,
+    // products
+    products: `${baseUrl}/api/v1/${adminEndpoint}/product`,
 }
