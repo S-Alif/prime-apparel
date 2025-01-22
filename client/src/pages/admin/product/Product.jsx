@@ -26,7 +26,7 @@ const Product = () => {
     // getting search params
     const [searchParams, setSearchParams] = useSearchParams()
     let productCategory = searchParams.get("category") || "all"
-    let productColor = searchParams.get("color") || "all";
+    let productColor = searchParams.get("color") || "all"
     let page = parseInt(searchParams.get("page") || "1", 10)
     let limit = parseInt(searchParams.get("limit") || "30", 10)
 
@@ -78,7 +78,7 @@ const Product = () => {
                                 <ManualInput
                                     field="select"
                                     selectValues={[{ _id: "all", name: "All" }, ...category]}
-                                    defaultValue="all"
+                                    defaultValue={productCategory}
                                     fieldLabel="Select category"
                                     name="category"
                                     onChange={updateUrl}
@@ -87,7 +87,7 @@ const Product = () => {
                                 <ManualInput
                                     field="select"
                                     selectValues={[{ _id: "all", name: "All" }, ...colors]}
-                                    defaultValue="all"
+                                    defaultValue={productColor}
                                     fieldLabel="Select color"
                                     name="color"
                                     onChange={updateUrl}
@@ -125,7 +125,7 @@ const Product = () => {
                             {
                                 product.length > 0 &&
                                 product.map((e,index) => (
-                                    <TableRow>
+                                    <TableRow key={index}>
                                         <TableCell className="text-[17px] border-r">{((page-1)*limit) + 1 + index}</TableCell>
                                         <TableCell className="text-[17px] border-r">{e?.name}</TableCell>
                                         <TableCell className="text-[17px] border-r">

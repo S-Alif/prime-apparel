@@ -16,7 +16,7 @@ p{
 
 /* page wrapper */
 .page-wrapper{
-    @apply w-full h-auto pb-16;
+    @apply w-full h-auto py-16;
 }
 
 /* section content wrapper */

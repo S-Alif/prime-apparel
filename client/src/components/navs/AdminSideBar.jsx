@@ -43,7 +43,7 @@ const AdminSideBar = () => {
     return (
         <nav id="admin-nav relative">
             {/* navbar */}
-            <div className={`w-full h-[70px] bg-white sticky top-0 z-[1000] ${sidebarActive ? "pl-[250px]" : "pl-0"} transition-all duration-300`}>
+            <div className={`w-full h-[90px] bg-white fixed top-0 z-[1000] ${sidebarActive ? "pl-[250px]" : "pl-0"} transition-all duration-300 shadow`}>
                 <div className="container h-full flex justify-between items-center">
                     <Button
                         size="icon"

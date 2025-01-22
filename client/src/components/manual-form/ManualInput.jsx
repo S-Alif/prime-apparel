@@ -1,7 +1,7 @@
 import RichTextEditor from "../RichTextEditor/Index"
 import { Input } from "../ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 // generate an input field
 const GenerateInputField = ({
@@ -39,6 +39,7 @@ const GenerateSelectField = ({
 }) => {
 
     const [value, setValue] = useState(defaultValue)
+    useEffect(() => {setValue(defaultValue)}, [defaultValue])
 
     return (
         <div>

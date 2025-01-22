@@ -16,18 +16,27 @@ const UserLayout = ({ admin = false }) => {
 
   // call necessary api data
   useEffect(() => {
-    (async () => {
+    let isMounted = true
+    
+    const fetchData = async () => {
       let [category, color, size] = await Promise.all([
         await apiHandler(adminRoutes.category, getMethod),
         await apiHandler(adminRoutes.colors, getMethod),
         await apiHandler(adminRoutes.sizes, getMethod)
       ])
 
-      if(category?.data) addCategories(category.data)
-      if(color?.data) addColors(color.data)
-      if(size?.data) addSizes(size.data)
+      if(isMounted){
+        if (category?.data) addCategories(category.data)
+        if (color?.data) addColors(color.data)
+        if (size?.data) addSizes(size.data)
+      }
 
-    })()
+    }
+    fetchData()
+
+    return () => {
+      isMounted = false;
+    }
   }, [])
 
   // if not admin route change side bar
