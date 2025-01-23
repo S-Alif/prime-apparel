@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table"
 import { adminRoutes, getMethod } from "@/constants/apiConstants"
 import { successToast } from "@/helpers/toasts"
+import { cn } from "@/lib/utils"
 import productSpecStore from "@/stores/productSpecStore"
 import { ListFilter } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -145,7 +146,18 @@ const Product = () => {
                                         <TableCell className="text-[17px] border-r">{e?.price}</TableCell>
                                         <TableCell className="text-[17px] border-r">{e?.published ? "Yes" : "No"}</TableCell>
                                         <TableCell className="text-[17px] flex gap-3">
-                                            <Button size="icon" className="!bg-green-500"><Edit3 /></Button>
+                                            <NavLink 
+                                                to={`/admin/products/update/${e?._id}`}
+                                                className={cn([
+                                                    "!bg-green-500",
+                                                    buttonVariants({
+                                                        size: "icon"
+                                                    })
+                                                ])}
+
+                                            >
+                                                <Edit3 />
+                                            </NavLink>
                                             <Button size="icon" variant="destructive"><X /></Button>
                                             <Button size="icon" className="!bg-blue-500"><Info /></Button>
                                         </TableCell>

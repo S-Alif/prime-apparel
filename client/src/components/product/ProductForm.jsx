@@ -21,7 +21,17 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
     
     // if updating then add the updating data to default value
     if(updating && Object.keys(data).length > 0) {
-        defaultValues = {...data}
+        let newDefaultValues = {
+            name: data?.name || "",
+            detail: data?.detail || "",
+            price: data?.price ? data?.price?.toString() : "0",
+            category: data?.category?._id || "",
+            color: data?.color?._id || "",
+            published: data?.published ? "1" : "0",
+            featured: data?.featured ? "1" : "0",
+            discount: data?.discount ? data?.discount?.toString() : "0",
+        }
+        defaultValues = newDefaultValues
     }
 
     let url = adminRoutes.products
@@ -87,8 +97,8 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
                             fieldLabel="Published"
                             name="published"
                             selectValues={[
-                                {_id: "true", name: "Yes"},
-                                {_id: "false", name: "NO"}
+                                {_id: "1", name: "Yes"},
+                                {_id: "0", name: "NO"}
                             ]}
                             placeholder="Publish status"
                         />
@@ -97,8 +107,8 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
                             fieldLabel="Featured"
                             name="featured"
                             selectValues={[
-                                {_id: "true", name: "Yes"},
-                                {_id: "false", name: "NO"}
+                                {_id: "1", name: "Yes"},
+                                {_id: "0", name: "NO"}
                             ]}
                             placeholder="Featured status"
                         />

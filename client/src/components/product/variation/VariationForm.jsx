@@ -22,7 +22,11 @@ const VariationForm = ({
     }
 
     if(updating) {
-        defaultValues = { ...data }
+        defaultValues = {
+            size: data?.size?._id || "",
+            stock: data?.stock? data?.stock?.toString() : "0",
+            productId: productId,
+        }
         url = `${url}/${data?._id}/${productId}`
     }
 
@@ -43,13 +47,16 @@ const VariationForm = ({
                 onSubmit={formSubmit}
                 defaultValues={defaultValues}
             >
-                <ManualInput
-                    field="select"
-                    fieldLabel="Select product size"
-                    name="size"
-                    selectValues={sizes}
-                    placeholder="Select size"
-                />
+                {
+                    !updating &&
+                    <ManualInput
+                        field="select"
+                        fieldLabel="Select product size"
+                        name="size"
+                        selectValues={sizes}
+                        placeholder="Select size"
+                    />
+                }
 
                 <ManualInput
                     field="input"

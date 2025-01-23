@@ -7,15 +7,32 @@ import DialogBox from '../DialogBox'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { Edit3 } from 'react-feather'
+import apiHandler from '@/api/apiHandler'
+import { adminRoutes, getMethod } from '@/constants/apiConstants'
 
-const ProductPage = ({page = "add", data = null}) => {
+const ProductPage = ({page = "add"}) => {
 
     const params = useParams()
-    const [product, setProduct] = useState(data || null)
+    const [product, setProduct] = useState(null)
     const [variations, setVariations] = useState([])
     const [images, setImages] = useState([])
-    console.log(product)
-    console.log(variations)
+
+    // fetch all the data
+    useEffect(() => {
+        if(page == "update" && params?.productId){
+            (async () => {
+                let [productData, productVariation, productImages] = await Promise.all([
+                    apiHandler(`${adminRoutes.products}/${params?.productId}`, getMethod),
+                    apiHandler(`${adminRoutes.productVariation}/${params?.productId}`, getMethod),
+                    apiHandler(`${adminRoutes.productImage}/${params?.productId}`, getMethod)
+                ])
+
+                if(productData) setProduct(productData?.data)
+                if(productVariation) setVariations(productVariation?.data)
+                if(productImages) setImages(productImages?.data)
+            })()
+        }
+    }, [])
 
     
     return (
@@ -34,7 +51,7 @@ const ProductPage = ({page = "add", data = null}) => {
                             >
                                 <VariationForm
                                     updating={false}
-                                    returnData={(data) => setVariations(prev => [...prev, data])}
+                                    returnData={(e) => setVariations(prev => [...prev, e])}
                                     productId={product?._id}
                                 />
                             </DialogBox>
@@ -49,7 +66,11 @@ const ProductPage = ({page = "add", data = null}) => {
                     }
 
                     <div>
-                        <ProductForm updating={false} returnData={setProduct} />
+                        <ProductForm 
+                            updating={page == "update"}
+                            returnData={setProduct}
+                            data={(page == "update" && product != null) ? product : {}}
+                        />
                     </div>
                 </div>
             </Section>
@@ -58,15 +79,15 @@ const ProductPage = ({page = "add", data = null}) => {
             {
                 variations.length > 0 &&
                 <Section id="product-variation" title={`Product Variations`}>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
                         {variations.map((e, index) => (
                             <Card className="p-4" key={index}>
-                                <p className="font-bold text-xl">Size: <span className="font-normal">{e?.name}</span></p>
+                                <p className="font-bold text-xl">Size: <span className="font-normal">{e?.size?.name}</span></p>
                                 <p className="font-bold text-xl">Stock: <span className="font-normal">{e?.stock}</span></p>
                                 <div className="text-right pt-5">
                                     <DialogBox
                                         trigger={<Button size="icon" className="!bg-green-500"><Edit3 /></Button>}
-                                        dialogTitle="Add a variation"
+                                        dialogTitle={<p>Update <span className="text-primary">{e?.size?.name}</span> variation</p>}
                                     >
                                         <VariationForm
                                             updating={true}

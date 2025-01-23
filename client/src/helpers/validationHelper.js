@@ -60,12 +60,14 @@ export const validateProduct = (product, updating) => {
 
     // when updating products
     if(updating){
-        if(product?.published.trim() != "true" || product?.published.trim() != "false"){
+        const options = [1, 0]
+        if(isNaN(product?.published.trim()) || !options.includes(parseInt(product.published.trim()))){
+            console.log(product?.published)
             failToast("Published status must be either Yes or No")
             return false
         }
-        if(product?.featured.trim() != "true" || product?.featured.trim() != "false"){
-            failToast("Published status must be either Yes or No")
+        if (isNaN(product?.featured.trim()) || !options.includes(parseInt(product.featured.trim()))){
+            failToast("Featured status must be either Yes or No")
             return false
         }
         if (isNaN(product?.discount.trim()) || product?.discount.trim().length > 3 || parseInt(product?.discount) < 0 || parseInt(product?.discount) > 100 ) {

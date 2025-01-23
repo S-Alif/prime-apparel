@@ -12,6 +12,7 @@ import Sizes from "./pages/admin/sizes/Sizes"
 import UserLayout from "./components/layouts/UserLayout"
 import Product from "./pages/admin/product/Product"
 import AddProduct from "./pages/admin/product/AddProduct"
+import UpdateProduct from "./pages/admin/product/UpdateProduct"
 
 const adminPath = "/admin"
 
@@ -80,7 +81,7 @@ const routes = [
                     },
                     {
                         path: `${adminPath}/products/update/:productId`,
-                        element: <></>,
+                        element: <UpdateProduct />,
                     }
                 ]
             },

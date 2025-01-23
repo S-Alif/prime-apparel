@@ -7,11 +7,11 @@ import BulletList from "@tiptap/extension-bullet-list"
 import OrderedList from "@tiptap/extension-ordered-list"
 import ImageResize from "tiptap-extension-resize-image"
 import ToolBar from "./ToolBar"
+import { useEffect } from "react"
 
 
 
-export default function RichTextEditor({defaultValue, onChange}) {
-
+export default function RichTextEditor({defaultValue = "<p>write product description</p>", onChange}) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -39,7 +39,7 @@ export default function RichTextEditor({defaultValue, onChange}) {
       Highlight,
       ImageResize,
     ],
-    immediatelyRender: false,
+    immediatelyRender: true,
     content: defaultValue,
     editorProps: {
       attributes: {
@@ -50,6 +50,14 @@ export default function RichTextEditor({defaultValue, onChange}) {
       onChange(editor.getHTML())
     },
   })
+
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(defaultValue)
+    }
+  }, [defaultValue, editor])
+
 
   return (
     <div>
