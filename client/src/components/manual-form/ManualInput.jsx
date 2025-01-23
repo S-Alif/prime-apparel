@@ -13,7 +13,7 @@ const GenerateInputField = ({
     onChange
 }) => {
     return (
-        <div className="mb-8">
+        <div className="mb-4 lg:mb-8">
             <p className="text-[18px] pb-3 capitalize">{fieldLabel}</p>
             <Input
                 type={fieldType}
@@ -42,7 +42,7 @@ const GenerateSelectField = ({
     useEffect(() => {setValue(defaultValue)}, [defaultValue])
 
     return (
-        <div>
+        <div className="mb-4 lg:mb-8">
             <p className="text-[18px] pb-3 capitalize">{fieldLabel}</p>
             <Select 
                 id={`${name}-field`}

@@ -33,6 +33,7 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
 
         let result = await apiHandler(url, updating ? patchMethod : postMethod, e)
         if(!result) return
+        returnData(result?.data)
         successToast(updating ? "Product updated" : "Product added")
     }
 

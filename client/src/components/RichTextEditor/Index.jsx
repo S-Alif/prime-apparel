@@ -3,7 +3,6 @@ import StarterKit from "@tiptap/starter-kit"
 import TextAlign from "@tiptap/extension-text-align"
 import Heading from "@tiptap/extension-heading"
 import Highlight from "@tiptap/extension-highlight"
-import Image from "@tiptap/extension-image"
 import BulletList from "@tiptap/extension-bullet-list"
 import OrderedList from "@tiptap/extension-ordered-list"
 import ImageResize from "tiptap-extension-resize-image"
@@ -15,7 +14,12 @@ export default function RichTextEditor({defaultValue, onChange}) {
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure(),
+      StarterKit.configure({
+        heading: false,      
+        bulletList: false,    
+        orderedList: false,   
+        image: false,         
+      }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -33,9 +37,9 @@ export default function RichTextEditor({defaultValue, onChange}) {
         },
       }),
       Highlight,
-      Image,
       ImageResize,
     ],
+    immediatelyRender: false,
     content: defaultValue,
     editorProps: {
       attributes: {
