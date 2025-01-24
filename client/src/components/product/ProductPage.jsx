@@ -9,6 +9,7 @@ import { Card } from '../ui/card'
 import { Edit3 } from 'react-feather'
 import apiHandler from '@/api/apiHandler'
 import { adminRoutes, getMethod } from '@/constants/apiConstants'
+import ImageForm from './images/ImageForm'
 
 const ProductPage = ({page = "add"}) => {
 
@@ -60,7 +61,10 @@ const ProductPage = ({page = "add"}) => {
                                 trigger={<Button size="lg">Add Images</Button>}
                                 dialogTitle="Add product images"
                             >
-                                product images
+                                <ImageForm 
+                                    productId={product?._id}
+                                    returnData={(e) => setImages(prev => [...prev, ...e])}
+                                />
                             </DialogBox>
                         </div>
                     }
@@ -99,6 +103,20 @@ const ProductPage = ({page = "add"}) => {
                                         />
                                     </DialogBox>
                                 </div>
+                            </Card>
+                        ))}
+                    </div>
+                </Section>
+            }
+
+            {/* product images */}
+            {
+                images.length > 0 &&
+                <Section id="product-images" title={`Product Images`}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                        {images.map((e, index) => (
+                            <Card className="p-4" key={index}>
+                                <img src={e?.url} alt={e?.name} className="w-full h-48 object-cover" />
                             </Card>
                         ))}
                     </div>

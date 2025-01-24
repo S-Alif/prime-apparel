@@ -58,7 +58,7 @@ const UserLayout = ({ admin = false }) => {
         <Outlet />
       </main>
 
-      <Toaster position="top-right" expand="true" richColors closeButton />
+      <Toaster position="top-center" expand="true" richColors closeButton visibleToasts={10} />
     </section>
   )
 }

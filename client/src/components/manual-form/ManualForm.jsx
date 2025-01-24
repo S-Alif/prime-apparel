@@ -23,6 +23,7 @@ const ManualForm = forwardRef(({
     }))
 
     useEffect(() => {
+        console.log(defaultValues)
         setValues(defaultValues)
     }, [defaultValues])
 
@@ -51,7 +52,7 @@ const ManualForm = forwardRef(({
 
             return React.cloneElement(child, {
                 ...child.props,
-                defaultValue: values[child.props.name],
+                ...(Object.keys(defaultValues).length > 0 && { defaultValue: values[child.props.name] }),
                 onChange: handleChange,
             })
         })

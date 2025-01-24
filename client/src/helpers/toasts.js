@@ -11,3 +11,9 @@ export const failToast = (message) => {
         className: "text-[16px]"
     })
 }
+
+export const infoToast = (message) => {
+    toast.info(message, {
+        className: "text-[16px]"
+    })
+}

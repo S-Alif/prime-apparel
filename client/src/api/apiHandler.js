@@ -1,4 +1,4 @@
-import { failToast } from "@/helpers/toasts"
+import { failToast, infoToast } from "@/helpers/toasts"
 import apiCaller from "./apiConfig"
 
 const apiHandler = async (api, method="GET", data = {}) => {
@@ -7,8 +7,20 @@ const apiHandler = async (api, method="GET", data = {}) => {
             method: method,
             url: api
         }
-        if(Object.keys(data).length > 0){
+        
+        if(data instanceof FormData){
             options.data = data
+        }
+        else if(Object.keys(data).length > 0){
+            options.data = data
+        }
+
+        if(method == "PATCH" || method == "POST"){
+            console.log(api)
+            infoToast("please wait....")
+        }
+        if(method == "DELETE"){
+            infoToast("Removing data.....please wait")
         }
 
         let result = await apiCaller(options)
