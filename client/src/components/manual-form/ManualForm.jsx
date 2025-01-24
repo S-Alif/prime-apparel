@@ -23,7 +23,6 @@ const ManualForm = forwardRef(({
     }))
 
     useEffect(() => {
-        console.log(defaultValues)
         setValues(defaultValues)
     }, [defaultValues])
 

@@ -53,8 +53,8 @@ export default function RichTextEditor({defaultValue = "<p>write product descrip
 
 
   useEffect(() => {
-    if (editor) {
-      editor.commands.setContent(defaultValue)
+    if (editor && editor.getHTML() !== defaultValue) {
+      editor.commands.setContent(defaultValue);
     }
   }, [defaultValue, editor])
 

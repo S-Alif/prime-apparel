@@ -6,10 +6,11 @@ import VariationForm from './variation/VariationForm'
 import DialogBox from '../DialogBox'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
-import { Edit3 } from 'react-feather'
+import { Edit3, X } from 'react-feather'
 import apiHandler from '@/api/apiHandler'
-import { adminRoutes, getMethod } from '@/constants/apiConstants'
+import { adminRoutes, deleteMethod, getMethod } from '@/constants/apiConstants'
 import ImageForm from './images/ImageForm'
+import { successToast } from '@/helpers/toasts'
 
 const ProductPage = ({page = "add"}) => {
 
@@ -115,8 +116,22 @@ const ProductPage = ({page = "add"}) => {
                 <Section id="product-images" title={`Product Images`}>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                         {images.map((e, index) => (
-                            <Card className="p-4" key={index}>
-                                <img src={e?.url} alt={e?.name} className="w-full h-48 object-cover" />
+                            <Card className="relative" key={index}>
+                                <img src={e?.url} alt={e?.name} className="w-full h-full object-contain rounded-md shadow-md" />
+
+                                <Button
+                                    size="icon"
+                                    variant="destructive"
+                                    className="absolute top-5 right-5 border-2 border-white"
+                                    onClick={async () => {
+                                        let result = await apiHandler(`${adminRoutes.productImage}/${e?._id}/${product?._id}`, deleteMethod)
+                                        if(!result) return
+                                        successToast(result?.data)
+                                        setImages(prev => prev.filter((img) => img?._id !== e?._id))
+                                    }}
+                                >
+                                    <X />
+                                </Button>
                             </Card>
                         ))}
                     </div>
