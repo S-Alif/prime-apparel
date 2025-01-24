@@ -18,6 +18,7 @@ const ProductPage = ({page = "add"}) => {
     const [product, setProduct] = useState(null)
     const [variations, setVariations] = useState([])
     const [images, setImages] = useState([])
+    const [dialogId, setDialogId] = useState(null)
 
     // fetch all the data
     useEffect(() => {
@@ -36,6 +37,17 @@ const ProductPage = ({page = "add"}) => {
         }
     }, [])
 
+    console.log(dialogId)
+
+    // remove variation
+    const removeVariation = async (variationId) => {
+        let result = await apiHandler(`${adminRoutes.productVariation}/${variationId}/${product?._id}`, deleteMethod)
+        if(!result) return
+        successToast(result?.data)
+        setDialogId(null)
+        setVariations(prev => prev.filter(e => e._id != variationId))
+    }
+
     
     return (
         <section className="page-wrapper" id={`product-${page}-page`}>
@@ -49,7 +61,10 @@ const ProductPage = ({page = "add"}) => {
                         <div className="pb-8 flex justify-end gap-4">
                             <DialogBox
                                 trigger={<Button size="lg">Add Variations</Button>}
+                                dialogId="add-variation"
                                 dialogTitle="Add a variation"
+                                openDialogId={dialogId}
+                                setDialogId={setDialogId}
                             >
                                 <VariationForm
                                     updating={false}
@@ -61,10 +76,16 @@ const ProductPage = ({page = "add"}) => {
                             <DialogBox
                                 trigger={<Button size="lg">Add Images</Button>}
                                 dialogTitle="Add product images"
+                                dialogId="add-image"
+                                openDialogId={dialogId}
+                                setDialogId={setDialogId}
                             >
                                 <ImageForm 
                                     productId={product?._id}
-                                    returnData={(e) => setImages(prev => [...prev, ...e])}
+                                    returnData={(e) => {
+                                        setImages(prev => [...prev, ...e])
+                                        setDialogId(null)
+                                    }}
                                 />
                             </DialogBox>
                         </div>
@@ -84,15 +105,18 @@ const ProductPage = ({page = "add"}) => {
             {
                 variations.length > 0 &&
                 <Section id="product-variation" title={`Product Variations`}>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                         {variations.map((e, index) => (
                             <Card className="p-4" key={index}>
-                                <p className="font-bold text-xl">Size: <span className="font-normal">{e?.size?.name}</span></p>
-                                <p className="font-bold text-xl">Stock: <span className="font-normal">{e?.stock}</span></p>
-                                <div className="text-right pt-5">
+                                <p className="font-semibold text-xl">Size: <span className="font-normal">{e?.size?.name}</span></p>
+                                <p className="font-semibold text-xl">Stock: <span className="font-normal">{e?.stock}</span></p>
+                                <div className="flex gap-3 justify-end pt-5">
                                     <DialogBox
                                         trigger={<Button size="icon" className="!bg-green-500"><Edit3 /></Button>}
                                         dialogTitle={<p>Update <span className="text-primary">{e?.size?.name}</span> variation</p>}
+                                        dialogId={`update-variation${index}`}
+                                        openDialogId={dialogId}
+                                        setDialogId={setDialogId}
                                     >
                                         <VariationForm
                                             updating={true}
@@ -100,8 +124,21 @@ const ProductPage = ({page = "add"}) => {
                                             productId={product?._id}
                                             returnData={(e) => {
                                                 setVariations(prev => prev.map((variation) => variation?._id === e?._id ? e : variation))
+                                                setDialogId(null)
                                             }}
                                         />
+                                    </DialogBox>
+
+                                    <DialogBox
+                                        trigger={<Button size="icon" variant="destructive"><X /></Button>}
+                                        dialogId={`remove-variation${index}`}
+                                        openDialogId={dialogId}
+                                        setDialogId={setDialogId}
+                                        dialogTitle={"Remove variant"}
+                                        bottomCloseButton={<Button size="lg" variant="destructive" onClick={() => removeVariation(e?._id)}>Proceed</Button>}
+
+                                    >
+                                        <p>Are you sure you want to remove this variant ?</p>
                                     </DialogBox>
                                 </div>
                             </Card>

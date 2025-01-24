@@ -16,7 +16,6 @@ const apiHandler = async (api, method="GET", data = {}) => {
         }
 
         if(method == "PATCH" || method == "POST"){
-            console.log(api)
             infoToast("please wait....")
         }
         if(method == "DELETE"){
