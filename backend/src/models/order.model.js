@@ -12,11 +12,6 @@ const orderSchema = new mongoose.Schema({
             required: true,
             ref: 'product',
         },
-        color: {
-            type: mongoose.Types.ObjectId,
-            required: true,
-            ref: 'color',
-        },
         size: {
             type: mongoose.Types.ObjectId,
             required: true,
@@ -26,10 +21,6 @@ const orderSchema = new mongoose.Schema({
             type: Number,
             required: true,
         },
-        price: {
-            type: Number,
-            required: true,
-        }
     }],
     totalAmount: {
         type: Number,

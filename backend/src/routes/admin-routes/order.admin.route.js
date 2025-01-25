@@ -1,10 +1,12 @@
 import express from 'express'
+import orderController from '../../controllers/order.controller.js'
 const router = express.Router()
 
 router
-    .get('/')
-    .get('/:id')
-    .patch('/:id')
-    .delete('/:id')
+    .get('/', orderController.getAllOrder)
+    .get('/:id', orderController.getOrderById)
+    .get('/user/:userId', orderController.getOrderByUser)
+    .patch('/:userId/:id', orderController.update)
+    .delete('/:userId/:id', orderController.remove)
 
 export default router

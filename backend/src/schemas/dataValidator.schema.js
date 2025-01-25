@@ -11,6 +11,8 @@ export const isValidData = (validatorMthod, data) => {
     return true
 }
 
+
+// validators
 const validator = {
 
     // signup schema
@@ -62,7 +64,22 @@ const validator = {
         productId: Joi.string().min(24).max(24).required(),
         size: Joi.string().min(24).max(24).required(),
         stock: Joi.number().greater(1).less(50000).required()
-    })
+    }),
+    
+    // order schema
+    orderSchema: Joi.object({
+        userId: Joi.string().min(24).max(24).required(),
+        items: Joi.array().items(Joi.object({
+            product: Joi.string().min(24).max(24).required(),
+            size: Joi.string().min(24).max(24).required(),
+            quantity: Joi.number().greater(0).required(),
+        })).required(),
+        district: Joi.string().required(),
+        phone: Joi.string().min(11).max(15).required(),
+        orderInstructions: Joi.string().max(300).optional(),
+        shippingAddress: Joi.string().min(10).max(300).required(),
+        paymentMethod: Joi.string().valid("cash on delivery", "online")
+    }),
 }
 
 export default validator
