@@ -6,7 +6,7 @@ const fileChecker = (allowedType = []) => {
             let files = req.files
             if (!files) throw new apiError(400, "Please upload a file")
 
-            const imageFileSize = 3 * 1024 * 1024
+            const imageFileSize = 5 * 1024 * 1024
             const videoFileSize = 5 * 1024 * 1024
 
             Object.values(files).flat().forEach(file => {

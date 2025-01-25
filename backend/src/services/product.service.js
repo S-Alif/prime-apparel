@@ -254,7 +254,12 @@ export const productVariation = {
         if (checkForDuplication > 0) throw new apiError(400, "Variation already exists")
 
         let result = await productVariationModel.create(data)
-        return new apiResponse(200, result)
+        let newVariation = await productVariationModel.findOne({_id: result?._doc?._id, productId: data?.productId})
+                                    .populate({
+                                        path:'size',
+                                        select: 'name'
+                                    })
+        return new apiResponse(200, newVariation)
     },
 
     // update a variation
@@ -271,9 +276,14 @@ export const productVariation = {
 
         if(checkForDuplication > 1) throw new apiError(400, "Variation already exists")
 
-        let result = await productVariationModel.findByIdAndUpdate({_id: variationId, productId: productId}, data, {new: true})
+        let result = await productVariationModel.findByIdAndUpdate({_id: variationId, productId: productId}, data)
+        let updatedVariation = await productVariationModel.findOne({_id: variationId, productId: productId})
+                                    .populate({
+                                        path:'size',
+                                        select: 'name'
+                                    })
 
-        return new apiResponse(200, result)
+        return new apiResponse(200, updatedVariation)
     },
 
     // remove a variation
@@ -283,7 +293,7 @@ export const productVariation = {
         if(!variationId || !productId) throw new apiError(400, "Provide product variation information")
 
         let result = await productVariationModel.findByIdAndDelete({_id: variationId, productId: productId})
-        return new apiResponse(200, result)
+        return new apiResponse(200, "Variation removed successfully")
     },
 
     // get variations by product
@@ -294,10 +304,6 @@ export const productVariation = {
         
         let result = await productVariationModel.find({productId: productId})
                     .select((role && role == roles.admin) ? "" : "-_id -createdAt -updatedAt")
-                    .populate({
-                        path: 'color',
-                        select: 'name colorValue'
-                    })
                     .populate({
                         path:'size',
                         select: 'name'
