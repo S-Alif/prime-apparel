@@ -17,6 +17,10 @@ export const publicRoutes = {
     sendOtp: `${baseUrl}/api/v1/${publicEndpoint}/send-otp`,
     verifyOtp: `${baseUrl}/api/v1/${publicEndpoint}/verify`,
     updatePass: `${baseUrl}/api/v1/${publicEndpoint}/update-pass`,
+    category: `${baseUrl}/api/v1/${publicEndpoint}/category`,
+    colors: `${baseUrl}/api/v1/${publicEndpoint}/colors`,
+    sizes: `${baseUrl}/api/v1/${publicEndpoint}/sizes`,
+    products: `${baseUrl}/api/v1/${publicEndpoint}/products`,
 }
 
 export const adminRoutes = {

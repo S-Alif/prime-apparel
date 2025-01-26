@@ -5,7 +5,7 @@ import AdminSideBar from "../navs/AdminSideBar"
 import userStore from "@/stores/userStore"
 import { useEffect } from "react"
 import apiHandler from "@/api/apiHandler"
-import { adminRoutes, getMethod } from "@/constants/apiConstants"
+import { getMethod, publicRoutes } from "@/constants/apiConstants"
 import productSpecStore from "@/stores/productSpecStore"
 
 
@@ -20,9 +20,9 @@ const UserLayout = ({ admin = false }) => {
     
     const fetchData = async () => {
       let [category, color, size] = await Promise.all([
-        await apiHandler(adminRoutes.category, getMethod),
-        await apiHandler(adminRoutes.colors, getMethod),
-        await apiHandler(adminRoutes.sizes, getMethod)
+        await apiHandler(publicRoutes.category, getMethod),
+        await apiHandler(publicRoutes.colors, getMethod),
+        await apiHandler(publicRoutes.sizes, getMethod)
       ])
 
       if(isMounted){
