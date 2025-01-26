@@ -34,12 +34,14 @@ const Product = () => {
     const [product, setProduct] = useState([])
     const [totalProducts, setTotalProducts] = useState(0)
     const [displayFilters, setDisplayFilters] = useState(false)
+    const [urlChanged, setUrlChanged] = useState(false)
 
     // updating the url
     const updateUrl = (name, filterValue) => {
         setSearchParams(prev => {
             return {...Object.fromEntries(prev), [name]: filterValue}
         })
+        setUrlChanged(true)
     }
 
     // get product data
@@ -64,9 +66,29 @@ const Product = () => {
 
                     {/* filter button and add product page link */}
                     <div className="pb-10 flex justify-between items-center">
-                        <Button size="lg" variant="outline" onClick={() => setDisplayFilters(prev => !prev)}>
-                            Filters <ListFilter />
-                        </Button>
+                        <div className="flex gap-3">
+                            <Button size="lg" variant="outline" onClick={() => setDisplayFilters(prev => !prev)}>
+                                Filters <ListFilter />
+                            </Button>
+                            {
+                                urlChanged &&
+                                <Button
+                                    size="lg"
+                                    variant="bluish"
+                                    onClick={() => {
+                                        setSearchParams({
+                                            category: "all",
+                                            color: "all",
+                                            page: "1",
+                                            limit: "30",
+                                        })
+                                        setUrlChanged(false)
+                                    }}
+                                >
+                                    Clear Filters
+                                </Button>
+                            }
+                        </div>
 
                         <NavLink to="/admin/products/add" className={buttonVariants({size:"lg", variant: "default"})}>Add Product</NavLink>
                     </div>

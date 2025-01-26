@@ -37,8 +37,6 @@ const ProductPage = ({page = "add"}) => {
         }
     }, [])
 
-    console.log(dialogId)
-
     // remove variation
     const removeVariation = async (variationId) => {
         let result = await apiHandler(`${adminRoutes.productVariation}/${variationId}/${product?._id}`, deleteMethod)
@@ -57,7 +55,7 @@ const ProductPage = ({page = "add"}) => {
                     {/* add variation and update image buttons */}
 
                     {
-                        product != null &&
+                        (page == "update" && product != null) &&
                         <div className="pb-8 flex justify-end gap-4">
                             <DialogBox
                                 trigger={<Button size="lg">Add Variations</Button>}

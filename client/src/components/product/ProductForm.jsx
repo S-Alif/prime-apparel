@@ -3,36 +3,41 @@ import ManualForm from "../manual-form/ManualForm"
 import ManualInput from "../manual-form/ManualInput"
 import { adminRoutes, patchMethod, postMethod } from "@/constants/apiConstants"
 import apiHandler from "@/api/apiHandler"
-import { failToast, successToast } from "@/helpers/toasts"
+import { successToast } from "@/helpers/toasts"
 import { validateProduct } from "@/helpers/validationHelper"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
 
 
 const ProductForm = ({ data = {}, updating = false, returnData }) => {
 
     const {category, colors} = productSpecStore()
+    const navigate = useNavigate()
 
-    let defaultValues = {
+    const [defaultValues, setDefaultValues] = useState({
         name: "",
         detail: "",
         price: "0",
         category: "",
         color: ""
-    }
+    })
     
     // if updating then add the updating data to default value
-    if(updating && Object.keys(data).length > 0) {
-        let newDefaultValues = {
-            name: data?.name || "",
-            detail: data?.detail || "",
-            price: data?.price ? data?.price?.toString() : "0",
-            category: data?.category?._id || "",
-            color: data?.color?._id || "",
-            published: data?.published ? "1" : "0",
-            featured: data?.featured ? "1" : "0",
-            discount: data?.discount ? data?.discount?.toString() : "0",
+    useEffect(() => {
+        if (updating && Object.keys(data).length > 0) {
+            let newValues = {
+                name: data?.name || "",
+                detail: data?.detail || "",
+                price: data?.price ? data?.price?.toString() : "0",
+                category: data?.category?._id || "",
+                color: data?.color?._id || "",
+                published: data?.published ? "1" : "0",
+                featured: data?.featured ? "1" : "0",
+                discount: data?.discount ? data?.discount?.toString() : "0",
+            }
+            setDefaultValues(newValues)
         }
-        defaultValues = newDefaultValues
-    }
+    }, [data])
 
     let url = adminRoutes.products
     if (updating) url = `${adminRoutes.products}/${data?._id}`
@@ -45,6 +50,7 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
         if(!result) return
         returnData(result?.data)
         successToast(updating ? "Product updated" : "Product added")
+        if(!updating) navigate(`/admin/products/update/${result.data?._id}`)
     }
 
 
