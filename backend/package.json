@@ -50,7 +50,7 @@
     "hpp": "^0.2.3",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.1",
+    "mongoose": ">=8.9.5",
     "nodemailer": "^6.9.16"
   },
   "devDependencies": {

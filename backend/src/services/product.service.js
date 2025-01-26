@@ -136,9 +136,14 @@ export const productService = {
         if (!id) throw new apiError(400, "No product Id")
 
         const isAdmin = (role && role == roles.admin)
+        
+        if(!isAdmin){
+            const isProductPublished = await productModel.findOne({_id: id, published: true})
+            if(!isProductPublished) throw new apiError(404, "Product not found")
+        }
 
         const pipeline = [
-            { $match: { _id: new mongoose.Types.ObjectId(id) } },
+            { $match: { _id: new ObjectId(id) } },
             {
                 $lookup: {
                     from: "categories",
@@ -214,12 +219,6 @@ export const productService = {
                                     $arrayElemAt: [
                                         "$variationSizes",
                                         { $indexOfArray: ["$variations.size", "$$variation.size.name"] }
-                                    ]
-                                },
-                                color: {
-                                    $arrayElemAt: [
-                                        "$variationColors",
-                                        { $indexOfArray: ["$variations.color", "$$variation.color.name"] }
                                     ]
                                 },
                                 stock: "$$variation.stock"
@@ -358,7 +357,7 @@ export const productImage = {
 
     // get images by product
     getImagesByProduct: async (req) => {
-        const productId = req.params?.id
+        const productId = req.params?.productId
         const role = req.headers?.role
         if(!productId) throw new apiError(400, "Invalid product information")
         
