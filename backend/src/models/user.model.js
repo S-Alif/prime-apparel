@@ -52,7 +52,8 @@ const userSchema = new mongoose.Schema({
     isBlocked: {
         type: Boolean,
         default: false,
-    }
+    },
+    refreshToken: [String]
 }, { timestamps: true, versionKey: false })
 
 
@@ -66,6 +67,7 @@ userSchema.methods.verifyPassword = async function (pass) {
     return await checkEncryptedPassword(pass, this.pass)
 }
 
+// generate access token
 userSchema.methods.generateToken = function () {
     return issueToken({ id: this._id, email: this.email, role: this.role })
 }

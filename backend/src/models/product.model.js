@@ -54,6 +54,15 @@ const productSchema = new mongoose.Schema({
     featured: {
         type: Boolean,
         default: false
+    },
+    setAsNewArrival: {
+        type: Boolean,
+        default: false,
+    },
+    unitsSold:{
+        type: Number,
+        default: 0,
+        min: 0
     }
 }, { timestamps: true, versionKey: false })
 
