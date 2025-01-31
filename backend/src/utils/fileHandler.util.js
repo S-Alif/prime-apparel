@@ -8,23 +8,25 @@ const uploadProductImage = async (fileArray) => {
         const uploadPromise = fileArray.map(async (file) => {
             const formData = new FormData()
 
-            formData.append("image", file.data, {
+            formData.append("source", file.data, {
                 filename: file.name,
                 contentType: file.mimetype
             })
+            formData.append("key", process.env.IMG_API_KEY)
+            formData.append("action", "upload")
+            formData.append("format", "json")
 
             const result = await axios.post(
-                `https://api.imgbb.com/1/upload?key=${process.env.IMG_API_KEY}`,
+                `https://freeimage.host/api/1/upload?key=${process.env.IMG_API_KEY}`,
                 formData,
                 {
                     headers: formData.getHeaders()
                 }
             )
 
-            const { display_url, delete_url } = result.data?.data
+            const { url } = result.data?.image
             return{
-                url: display_url,
-                deleteUrl: delete_url
+                url: url
             }
         })
 
@@ -33,6 +35,8 @@ const uploadProductImage = async (fileArray) => {
         return uploadedImageUrls
 
     } catch (error) {
+        console.log(error)
+        console.log(error?.response?.data)
         throw new apiError(400, "Error uploading product images")
     }
 }

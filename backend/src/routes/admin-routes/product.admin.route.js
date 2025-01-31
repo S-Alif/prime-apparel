@@ -4,7 +4,7 @@ import productController from '../../controllers/product.controller.js'
 import { fileExtensions } from '../../constants/constants.js'
 
 // file check middleware
-import fileCheckMiddleware from '../../middlewares/fileChecker.middleware.js'
+import fileChecker from '../../middlewares/fileChecker.middleware.js'
 
 
 const router = express.Router()
@@ -15,7 +15,7 @@ router
     .post('/', productController.create)
     .patch('/:id', productController.update)
     .delete('/:id', productController.remove)
-    .post('/image/:id', fileUpload({ createParentPath: true }), fileCheckMiddleware([fileExtensions.jpg, fileExtensions.png]), productController.addImage) // product image
+    .post('/image/:id', fileUpload({ createParentPath: true }), fileChecker([fileExtensions.jpg, fileExtensions.png], 5), productController.addImage) // product image
     .get('/image/:productId', productController.getImages)
     .delete('/image/:imgId/:productId', productController.removeImageById)
     .post('/variation', productController.addVariation) // product variantion

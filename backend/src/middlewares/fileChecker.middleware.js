@@ -1,15 +1,26 @@
 import {apiError} from '../helpers/apiError.helper.js'
 
-const fileChecker = (allowedType = []) => {
+const fileChecker = (allowedType = [], fileLimit) => {
     return async (req, res, next) => {
         try {
             let files = req.files
-            if (!files) throw new apiError(400, "Please upload a file")
+            
+            if (!files || Object.keys(files).length === 0) {
+                if (fileLimit === 0) {
+                    return next()
+                }
+                return next()
+            }
 
             const imageFileSize = 5 * 1024 * 1024
             const videoFileSize = 5 * 1024 * 1024
 
-            Object.values(files).flat().forEach(file => {
+            const uploadingImages = Object.values(req.files).flat()
+
+            if(fileLimit > 0 && uploadingImages.length > fileLimit) throw new apiError(400, `Cannot upload more than ${fileLimit} images or videos`)
+
+            // Check file size and type
+            uploadingImages.flatMap(file => {
                 if (!allowedType.includes(file?.mimetype)) {
                     throw new apiError(400, "Invalid file types")
                 }
