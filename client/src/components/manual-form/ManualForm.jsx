@@ -48,6 +48,13 @@ const ManualForm = forwardRef(({
                     children: addHandlerToChildren(child.props.children),
                 })
             }
+            
+            if (child?.props?.type == "file") {
+                return React.cloneElement(child, {
+                    ...child.props,
+                    onChange: (e) => handleChange(child.props.name, e.target.files),
+                });
+            }
 
             return React.cloneElement(child, {
                 ...child.props,

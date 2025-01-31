@@ -15,15 +15,26 @@ const GenerateInputField = ({
     return (
         <div className="mb-4 lg:mb-8">
             <p className="text-[18px] pb-3 capitalize">{fieldLabel}</p>
-            <Input
-                type={fieldType}
-                name={name}
-                value={defaultValue || ""}
-                placeholder={placeholder}
-                onChange={(e) => onChange(name, e.target.value)}
-                id={`${name}-field`}
-                className="h-12 !text-[17px]"
-            />
+            {
+                fieldType == "file" ?
+                <Input
+                    type={fieldType}
+                    name={name}
+                    placeholder={placeholder}
+                    onChange={(e) => onChange(name, e.target.files)}
+                    id={`${name}-field`}
+                    className="h-12 !text-[17px]"
+                /> : 
+                <Input
+                    type={fieldType}
+                    name={name}
+                    value={defaultValue || ""}
+                    placeholder={placeholder}
+                    onChange={(e) => onChange(name, e.target.value)}
+                    id={`${name}-field`}
+                    className="h-12 !text-[17px]"
+                />
+            }
         </div>
     )
 }

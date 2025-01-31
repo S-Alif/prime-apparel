@@ -5,6 +5,7 @@ import productSpecStore from "@/stores/productSpecStore"
 import apiHandler from "@/api/apiHandler"
 import { failToast, successToast } from "@/helpers/toasts"
 import ManualInput from "../manual-form/ManualInput"
+import { Input } from "../ui/input"
 
 
 const CategoryColorSizeForm = ({
@@ -18,7 +19,8 @@ const CategoryColorSizeForm = ({
 
     // setting default value
     let defaultValueObj = { 
-        name: "", 
+        name: "",
+        // ...(generateForm === "category" && { images: "" }),
         ...(generateForm === "color" && { colorValue: "" }) 
     }
     const [defaultValue, setDefaultValue] = useState(defaultValueObj)
@@ -44,14 +46,46 @@ const CategoryColorSizeForm = ({
         url = `${url}/${data?._id}`
     }
 
+    // check images size and types
+    const fileChecker = (files) => {
+        if (!files || files.length == 0 || files.length > 1) return failToast("Please select upto one images")
+
+        const allowedFileTypes = ["image/jpeg", "image/png"]
+
+        for (let i = 0; i < files.length; i++) {
+            if (!allowedFileTypes.includes(files[i].type)) {
+                failToast("Invalid file format. Only jpg and png are allowed")
+                return false
+            }
+            if (files[i].size > 5 * 1024 * 1024) {
+                failToast("File size should not exceed 5MB")
+                return false
+            }
+        }
+        return true
+    }
+
     // submit form
     const formSubmit = async (e) => {
         if(generateForm == "sizes" && e.name.trim().length < 1) return failToast("Name should be at least 1 characters")
         if (generateForm != "sizes" && e.name.trim().length < 3){
             return failToast("Name should be at least 3 characters")
         }
+        
+        let formData = new FormData()
 
-        let result = await apiHandler(url, updating ? patchMethod : postMethod, e)
+        if(generateForm == "category"){
+            if(!fileChecker(e.images)) return
+            formData.append("files[]", e.images[0])
+            formData.append("name", e.name)
+        }
+
+
+        let result = await apiHandler(
+            url,
+            updating ? patchMethod : postMethod, 
+            generateForm == "category" ? formData : e
+        )
         if(!result) return
         successToast(`${generateForm} saved`)
         formRef.current.resetForm()
@@ -88,6 +122,17 @@ const CategoryColorSizeForm = ({
                     name="name"
                     placeholder={`Enter ${generateForm} name`}
                 />
+
+                {
+                    generateForm == "category" &&
+                    <ManualInput
+                        field="input"
+                        fieldType="file"
+                        fieldLabel={`${generateForm} image`}
+                        name="images"
+                        placeholder={`Enter ${generateForm} name`}
+                    />
+                }
 
                 {
                     generateForm == "color" &&
