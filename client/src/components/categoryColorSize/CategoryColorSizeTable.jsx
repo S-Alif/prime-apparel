@@ -15,11 +15,15 @@ import apiHandler from "@/api/apiHandler"
 import { successToast } from "@/helpers/toasts"
 import { DialogClose } from "../ui/dialog"
 import productSpecStore from "@/stores/productSpecStore"
+import DialogBox from "../DialogBox"
+import { useState } from "react"
+import { Image } from "lucide-react"
 
 
 const CategoryColorSizeTable = ({ data = [], page = "category" }) => {
 
     const { removeCategories, removeColors, removeSizes } = productSpecStore()
+    const [dialog, setDialog] = useState(null)
 
     let deleteUrl = adminRoutes.category
     if (page == "color") deleteUrl = adminRoutes.colors
@@ -45,6 +49,7 @@ const CategoryColorSizeTable = ({ data = [], page = "category" }) => {
                         <TableHead className="font-bold text-xl">#</TableHead>
                         <TableHead className={`font-bold text-xl pl-5 ${page == "color" ? "w-[40%]" : "w-[80%]"}`}>Name</TableHead>
                         {page == "color" && <TableHead className="font-bold text-xl w-[40%]">Color Value</TableHead>}
+                        {page == "category" && <TableHead className="font-bold text-xl w-[40%]">Image</TableHead>}
                         <TableHead className="font-bold text-xl pl-5">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -61,6 +66,21 @@ const CategoryColorSizeTable = ({ data = [], page = "category" }) => {
                                             <div className="w-10 h-10 rounded-full border" style={{backgroundColor: e?.colorValue}}></div>
                                             <p>{e?.colorValue}</p>
                                         </div>
+                                    </TableCell>
+                                }
+
+                                {
+                                    page == "category" && 
+                                    <TableCell className="border-r">
+                                        <DialogBox
+                                            trigger={<Button size="icon"><Image /></Button>}
+                                            dialogTitle={`${e?.name}`}
+                                            dialogId={e?._id}
+                                            openDialogId={dialog}
+                                            setDialogId={setDialog}
+                                        >
+                                            <img src={e?.image} alt={`${e?.name} image`} className="rounded-md" />
+                                        </DialogBox>
                                     </TableCell>
                                 }
 
