@@ -14,6 +14,8 @@ const productSpecStore = create((set) => ({
     category: [],
     colors: [],
     sizes: [],
+    newArrivals: [],
+    featuredProducts: [],
 
     // category
     addCategories: (category = []) => set((state) => ({
@@ -46,6 +48,16 @@ const productSpecStore = create((set) => ({
     })),
     updateSizes: (size) => set((state) => ({
         sizes: updateDoc(state.sizes, size)
+    })),
+
+    // new arrivals
+    setNewArrivals: (newArrival = []) => set((state) => ({
+        newArrivals: [...state.newArrivals,...newArrival]
+    })),
+
+    // featured
+    setFeaturedProducts: (featuredProduct = []) => set((state) => ({
+        featuredProducts: [...state.featuredProducts,...featuredProduct]
     }))
 
 }))

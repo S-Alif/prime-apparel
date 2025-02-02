@@ -12,23 +12,27 @@ import productSpecStore from "@/stores/productSpecStore"
 const UserLayout = ({ admin = false }) => {
 
   const {user, sidebarActive, toggleSidebar} = userStore()
-  const { addCategories, addColors, addSizes } = productSpecStore()
+  const { addCategories, addColors, addSizes, setNewArrivals, setFeaturedProducts } = productSpecStore()
 
   // call necessary api data
   useEffect(() => {
     let isMounted = true
     
     const fetchData = async () => {
-      let [category, color, size] = await Promise.all([
+      let [category, color, size, featured, newArrival] = await Promise.all([
         await apiHandler(publicRoutes.category, getMethod),
         await apiHandler(publicRoutes.colors, getMethod),
-        await apiHandler(publicRoutes.sizes, getMethod)
+        await apiHandler(publicRoutes.sizes, getMethod),
+        await apiHandler(`${publicRoutes.products}/type?type=featured`, getMethod),
+        await apiHandler(`${publicRoutes.products}/type?type=newArrival`, getMethod),
       ])
 
       if(isMounted){
         if (category?.data) addCategories(category.data)
         if (color?.data) addColors(color.data)
         if (size?.data) addSizes(size.data)
+        if (featured?.data) setFeaturedProducts(featured.data)
+        if (newArrival?.data) setNewArrivals(newArrival.data)
       }
 
     }
