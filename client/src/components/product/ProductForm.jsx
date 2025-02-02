@@ -33,6 +33,7 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
                 color: data?.color?._id || "",
                 published: data?.published ? "1" : "0",
                 featured: data?.featured ? "1" : "0",
+                setAsNewArrival: data?.setAsNewArrival ? "1" : "0",
                 discount: data?.discount ? data?.discount?.toString() : "0",
             }
             setDefaultValues(newValues)
@@ -97,7 +98,7 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
 
                 {
                     updating && 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                         <ManualInput
                             field="select"
                             fieldLabel="Published"
@@ -117,6 +118,16 @@ const ProductForm = ({ data = {}, updating = false, returnData }) => {
                                 {_id: "0", name: "NO"}
                             ]}
                             placeholder="Featured status"
+                        />
+                        <ManualInput
+                            field="select"
+                            fieldLabel="New Arrival"
+                            name="setAsNewArrival"
+                            selectValues={[
+                                {_id: "1", name: "Yes"},
+                                {_id: "0", name: "NO"}
+                            ]}
+                            placeholder="New arrival"
                         />
                         <ManualInput
                             field="input"
