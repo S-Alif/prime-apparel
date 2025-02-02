@@ -4,6 +4,7 @@ import SectionUsers from "./components/tags/SectionUsers"
 import productSpecStore from "./stores/productSpecStore"
 import CategoryCards from "./components/cards/CategoryCards"
 import ProductCards from "./components/cards/ProductCards"
+import CardLoader from "./components/loaders/CardLoader"
 
 
 const App = () => {
@@ -38,6 +39,8 @@ const App = () => {
             <SectionUsers
                 sectionTtitle="New Arrivals"
                 sectionId="new-arrivals"
+                loading={newArrivals.length == 0}
+                loadingFallback={<CardLoader />}
             >
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-10">
                     {
@@ -84,6 +87,8 @@ const App = () => {
             <SectionUsers
                 sectionTtitle="Our Categories"
                 sectionId="display-category"
+                loading={category.length == 0}
+                loadingFallback={<CardLoader />}
             >
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-10">
                     {
@@ -95,11 +100,12 @@ const App = () => {
 
             </SectionUsers>
 
-
             {/* featured products */}
             <SectionUsers
                 sectionTtitle="Featured products"
                 sectionId="featured-products"
+                loading={featuredProducts.length == 0}
+                loadingFallback={<CardLoader />}
             >
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-10">
                     {
