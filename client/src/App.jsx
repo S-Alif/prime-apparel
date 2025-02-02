@@ -3,11 +3,12 @@ import { buttonVariants } from "./components/ui/button"
 import SectionUsers from "./components/tags/SectionUsers"
 import productSpecStore from "./stores/productSpecStore"
 import CategoryCards from "./components/cards/CategoryCards"
+import ProductCards from "./components/cards/ProductCards"
 
 
 const App = () => {
 
-    const {category} = productSpecStore()
+    const { category, newArrivals, featuredProducts } = productSpecStore()
 
     return (
         <section className="w-full h-auto" id="home-page">
@@ -32,20 +33,22 @@ const App = () => {
                 </div>
             </section>
 
-            {/* categories */}
+            
+            {/* new arrival */}
             <SectionUsers
-                sectionTtitle="Our Categories"
-                sectionId="display-category"
+                sectionTtitle="New Arrivals"
+                sectionId="new-arrivals"
             >
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-10">
                     {
-                        category.map((e, index) => (
-                            <CategoryCards category={e} key={index} />
+                        newArrivals.map((e, index) => (
+                            <ProductCards product={e} key={index} />
                         ))
                     }
                 </div>
 
             </SectionUsers>
+            
 
             {/* static section */}
             <section className="py-[50px]" id="go-to-shop">
@@ -76,6 +79,37 @@ const App = () => {
                     </div>
                 </div>
             </section>
+
+            {/* categories */}
+            <SectionUsers
+                sectionTtitle="Our Categories"
+                sectionId="display-category"
+            >
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-10">
+                    {
+                        category.map((e, index) => (
+                            <CategoryCards category={e} key={index} />
+                        ))
+                    }
+                </div>
+
+            </SectionUsers>
+
+
+            {/* featured products */}
+            <SectionUsers
+                sectionTtitle="Featured products"
+                sectionId="featured-products"
+            >
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-10">
+                    {
+                        featuredProducts.map((e, index) => (
+                            <ProductCards product={e} key={index} />
+                        ))
+                    }
+                </div>
+
+            </SectionUsers>
 
             
 

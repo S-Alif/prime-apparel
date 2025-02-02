@@ -141,6 +141,8 @@ const Product = () => {
                             <TableHead className="font-bold text-[17px] lg:text-[17px]">Color</TableHead>
                             <TableHead className="font-bold text-[17px] lg:text-[17px]">Price</TableHead>
                             <TableHead className="font-bold text-[17px] lg:text-[17px]">Published</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">Featured</TableHead>
+                            <TableHead className="font-bold text-[17px] lg:text-[17px]">New Arrival</TableHead>
                             <TableHead className="font-bold text-[17px] lg:text-[17px]">Actions</TableHead>
                         </TableHeader>
 
@@ -160,13 +162,15 @@ const Product = () => {
                                                 onClick={() => updateUrl("color", e?.color?._id)}
                                             >
                                                 <div className="flex gap-4 items-center">
-                                                    <div className="w-10 h-10 rounded-full border" style={{ backgroundColor: e?.color?.colorValue }}></div>
+                                                    <div className="w-10 h-10 rounded-md border" style={{ backgroundColor: e?.color?.colorValue }}></div>
                                                     <p>{e?.color?.name}</p>
                                                 </div>
                                             </Button>
                                         </TableCell>
                                         <TableCell className="text-[17px] border-r">{e?.price}</TableCell>
                                         <TableCell className="text-[17px] border-r">{e?.published ? "Yes" : "No"}</TableCell>
+                                        <TableCell className="text-[17px] border-r">{e?.featured ? "✅" : "❌"}</TableCell>
+                                        <TableCell className="text-[17px] border-r">{e?.setAsNewArrival ? "Yes" : "No"}</TableCell>
                                         <TableCell className="text-[17px] flex gap-3">
                                             <NavLink 
                                                 to={`/admin/products/update/${e?._id}`}
