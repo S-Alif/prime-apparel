@@ -21,6 +21,8 @@ export const publicRoutes = {
     colors: `${baseUrl}/api/v1/${publicEndpoint}/colors`,
     sizes: `${baseUrl}/api/v1/${publicEndpoint}/sizes`,
     products: `${baseUrl}/api/v1/${publicEndpoint}/products`,
+    productVariation: `${baseUrl}/api/v1/${publicEndpoint}/products/variation`,
+    productImages: `${baseUrl}/api/v1/${publicEndpoint}/products/images`,
 }
 
 export const adminRoutes = {

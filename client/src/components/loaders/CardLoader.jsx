@@ -12,7 +12,7 @@ const CardLoader = () => {
                                 <div className="space-y-3">
                                     <div className="grid grid-cols-3 gap-4">
                                         <div className="col-span-2 h-2 rounded bg-gray-400"></div>
-                                        <div class="col-span-1 h-2 rounded bg-gray-400"></div>
+                                        <div className="col-span-1 h-2 rounded bg-gray-400"></div>
                                     </div>
                                     <div className="h-2 rounded bg-gray-400"></div>
                                 </div>

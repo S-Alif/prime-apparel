@@ -13,6 +13,7 @@ import UserLayout from "./components/layouts/UserLayout"
 import Product from "./pages/admin/product/Product"
 import AddProduct from "./pages/admin/product/AddProduct"
 import UpdateProduct from "./pages/admin/product/UpdateProduct"
+import DisplayProduct from "./pages/DisplayProduct"
 
 const adminPath = "/admin"
 
@@ -48,6 +49,16 @@ const routes = [
             {
                 path: "/secured",
                 element: <Signup />,
+            }
+        ]
+    },
+    {
+        path: "/product",
+        element: <UserLayout />,
+        children: [
+            {
+                path: "/product/:id",
+                element: <DisplayProduct />,
             }
         ]
     },
