@@ -185,7 +185,12 @@ const Product = () => {
                                                 <Edit3 />
                                             </NavLink>
                                             <Button size="icon" variant="destructive"><X /></Button>
-                                            <Button size="icon" className="!bg-blue-500"><Info /></Button>
+                                            <NavLink 
+                                                to={`/product/${e?._id}`}
+                                                className={`${buttonVariants({size:"icon"})} !bg-blue-500`}
+                                            >
+                                                <Info />
+                                            </NavLink>
                                         </TableCell>
                                     </TableRow>
                                 ))

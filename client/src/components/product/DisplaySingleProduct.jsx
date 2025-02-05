@@ -3,10 +3,13 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card } from '../ui/card'
 import StarRatings from 'react-star-ratings'
 import { Button, buttonVariants } from '../ui/button'
-import { Toggle } from '../ui/toggle'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 import { NavLink } from 'react-router'
 import { CreditCard, MessageSquareMore, Minus, Plus, Shirt, ShoppingCart } from 'lucide-react'
+import SectionUsers from '../tags/SectionUsers'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
+import ProductReview from './ProductReview'
+
 
 const DisplaySingleProduct = ({
     productId,
@@ -56,8 +59,8 @@ const DisplaySingleProduct = ({
 
 
     return (
-        <section className="w-full h-auto py-[50px]" id="display-single-product">
-            <section className="w-full h-auto" id="product-details">
+        <section className="w-full h-auto" id="display-single-product">
+            <section className="w-full h-auto py-[50px]" id="product-details">
                 <div className="container">
                     <div className="flex flex-col lg:flex-row gap-20 xl:gap-32">
 
@@ -216,7 +219,7 @@ const DisplaySingleProduct = ({
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <span className="w-10 h-10 rounded-md bg-gray-200 flex justify-center items-center"><Shirt className='text-gray-600' /></span>
-                                    Secure payment
+                                    Soft and Cozy
                                 </div>
                             </div>
                         </div>
@@ -224,6 +227,27 @@ const DisplaySingleProduct = ({
                     </div>
                 </div>
             </section>
+
+            {/* description */}
+            <SectionUsers
+                sectionId="product-info"
+                sectionTtitle="Product Description"
+                sectionClassNames="inline-block"
+            >
+                <Tabs defaultValue="description" className="w-full h-12 max-w-full">
+                    <TabsList className="w-[600px] max-w-full h-full justify-around">
+                        <TabsTrigger value="description" className="w-1/2 h-full text-[17px]">Description</TabsTrigger>
+                        <TabsTrigger value="reviews" className="w-1/2 h-full text-[17px]">User reviews</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="description">
+                        <div className="detail mt-8 p-3 rounded-md border-2 w-full" dangerouslySetInnerHTML={{__html: productData?.detail}} />
+                    </TabsContent>
+                    <TabsContent value="reviews"><ProductReview productId={productId} /></TabsContent>
+                </Tabs>
+
+            </SectionUsers>
+
+            <div className="py-[50px]"></div>
         </section>
     )
 }
