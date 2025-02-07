@@ -8,6 +8,7 @@ const productController = {
     remove: controllerHandler(productService.remove),
     getAll: controllerHandler(productService.getAllProduct),
     getById: controllerHandler(productService.getProductById),
+    getFeaturedAndNewArrivalProducts: controllerHandler(productService.getFeaturedAndNewArrivalProducts),
 
     getVariations: controllerHandler(productVariation.getVariationsByProduct),
     addVariation: controllerHandler(productVariation.create),

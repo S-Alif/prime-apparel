@@ -36,6 +36,44 @@ export const productService = {
         return new apiResponse(200, result)
     },
 
+    // featured and new arrival
+    getFeaturedAndNewArrivalProducts: async (req) => {
+        const type = req?.query?.type
+        if(!type) throw new apiError(400, "Invalid product type")
+
+        let matchStage = {published: true}
+        if(type == "featured"){
+            matchStage.featured = true
+        }
+        if(type == "newArrival"){
+           matchStage.setAsNewArrival = true
+        }
+
+        let products = await productModel.find(matchStage)
+                        .sort({ createdAt: -1 })
+                        .select("name price category")
+                        .populate({
+                            path: "category",
+                            select: "name"
+                        })
+
+        const productsWithImages = await Promise.all(
+            products.map(async (product) => {
+                const images = await productImageModel
+                    .findOne({ productId: product._id })
+                    .select("url").lean()
+
+                return {
+                    ...product.toObject(),
+                    images: images.url
+                }
+            })
+        )
+        
+
+        return new apiResponse(200, productsWithImages)
+    },
+
     // remove a product
     remove: async (req) => {
 
@@ -113,12 +151,13 @@ export const productService = {
                     },
                     images: { $arrayElemAt: ["$images.url", 0] },
                     currentRating: 1,
+                    discount: 1,
                     ...(isAdmin && {
                         totalRating: 1,
                         reviewCount: 1,
                         published: 1,
-                        discount: 1,
-                        featured: 1
+                        featured: 1,
+                        setAsNewArrival: 1
                     })
                 }
             }
@@ -171,30 +210,6 @@ export const productService = {
                 }
             },
             {
-                $lookup: {
-                    from: "productvariations",
-                    localField: "_id",
-                    foreignField: "productId",
-                    as: "variations"
-                }
-            },
-            {
-                $lookup: {
-                    from: "sizes",
-                    localField: "variations.size",
-                    foreignField: "_id",
-                    as: "variationSizes"
-                }
-            },
-            {
-                $lookup: {
-                    from: "colors",
-                    localField: "variations.color",
-                    foreignField: "_id",
-                    as: "variationColors"
-                }
-            },
-            {
                 $project: {
                     name: 1,
                     detail: 1,
@@ -208,23 +223,16 @@ export const productService = {
                         name: "$colors.name",
                         colorValue: "$colors.colorValue"
                     },
-                    images: !isAdmin ? "$images.url" : "$images",
-                    variations: {
-                        $map: {
-                            input: "$variations",
-                            as: "variation",
-                            in: {
-                                _id: "$$variation._id",
-                                size: {
-                                    $arrayElemAt: [
-                                        "$variationSizes",
-                                        { $indexOfArray: ["$variations.size", "$$variation.size.name"] }
-                                    ]
-                                },
-                                stock: "$$variation.stock"
-                            }
-                        }
-                    },
+                    reviewCount: 1,
+                    currentRating: 1,
+                    ...(isAdmin && {
+                        totalRating: 1,
+                        published: 1,
+                        discount: 1,
+                        featured: 1,
+                        createdAt: 1,
+                        setAsNewArrival: 1
+                    }),
                     createdAt: 1
                 }
             }

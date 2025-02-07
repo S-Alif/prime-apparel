@@ -60,6 +60,11 @@ const routeList = [
         controller: productController.getAll
     },
     {
+        path: '/products/type',
+        method: 'get',
+        controller: productController.getFeaturedAndNewArrivalProducts
+    },
+    {
         path: '/products/:id',
         method: 'get',
         controller: productController.getById
