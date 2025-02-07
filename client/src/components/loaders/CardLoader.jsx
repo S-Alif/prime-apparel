@@ -1,11 +1,11 @@
 
 
-const CardLoader = () => {
+const CardLoader = ({numberOfCards = 3, container = true}) => {
     return (
-        <div className="container">
+        <div className={container ? "container" : ""}>
             <div className='grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-10'>
                 {
-                    Array.from({length: 3}).map((_, index) => (
+                    Array.from({ length: numberOfCards }).map((_, index) => (
                         <div className="animate-pulse" key={index}>
                             <div className="w-full h-56 rounded-md bg-gray-400"></div>
                             <div className="flex-1 space-y-6 pt-5">

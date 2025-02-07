@@ -152,7 +152,7 @@ const DisplaySingleProduct = ({
                                 <div className="flex gap-3 items-center">
                                     <h4 className="text-[17px] xl:text-xl font-medium">Product color : </h4>
                                     <NavLink
-                                        to={`/products?category=all&color=${product?.color?._id}&limit=30&page=1`}
+                                        to={`/product?category=all&color=${product?.color?._id}&limit=30&page=1`}
                                         className={buttonVariants({ size: "icon" })}
                                         style={{
                                             background: product?.color?.colorValue

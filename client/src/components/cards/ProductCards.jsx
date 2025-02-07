@@ -13,12 +13,12 @@ const ProductCards = ({ product }) => {
                 <NavLink to={`/product/${product?._id}`}>
                     <img
                         className="w-full h-full object-cover object-center hover:scale-110 duration-300 shadow-sm"
-                        src={user?.role == 1999 ? product.image[0] : product.image}
+                        src={user?.role == 1999 ? product.image[0] : product.images}
                         alt={product.name}
                     />
                 </NavLink>
             </div>
-            <div className="pt-5 flex justify-between items-center">
+            <div className="pt-5 flex items-start gap-5 lg:justify-between lg:items-center flex-col lg:flex-row">
                 <div>
                     <NavLink to={`/product/${product?._id}`}><h4 className="text-[17px] font-medium">{product.name}</h4></NavLink>
                     <NavLink

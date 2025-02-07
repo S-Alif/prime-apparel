@@ -13,7 +13,8 @@ import UserLayout from "./components/layouts/UserLayout"
 import Product from "./pages/admin/product/Product"
 import AddProduct from "./pages/admin/product/AddProduct"
 import UpdateProduct from "./pages/admin/product/UpdateProduct"
-import DisplayProduct from "./pages/DisplayProduct"
+import ProductDetail from "./pages/ProductDetail"
+import DisplayProducts from "./pages/DisplayProducts"
 
 const adminPath = "/admin"
 
@@ -57,8 +58,12 @@ const routes = [
         element: <UserLayout />,
         children: [
             {
+                index: true,
+                element: <DisplayProducts />,
+            },
+            {
                 path: "/product/:id",
-                element: <DisplayProduct />,
+                element: <ProductDetail />,
             }
         ]
     },

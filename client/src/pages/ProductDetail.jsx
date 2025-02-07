@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 
 
-const DisplayProduct = () => {
+const ProductDetail = () => {
 
     const params = useParams()
     const [product, setProduct] = useState(null)
@@ -51,4 +51,4 @@ const DisplayProduct = () => {
     )
 }
 
-export default DisplayProduct
+export default ProductDetail

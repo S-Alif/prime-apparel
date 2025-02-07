@@ -67,7 +67,7 @@ const App = () => {
                                 <h4 className="uppercase text-xl lg:text-3xl xl:text-4xl text-white !leading-normal">We made your everyday fashion better</h4>
                                 <p className="text-white lg:pt-5 xl:pt-[30px] lg:text-xl">In our quest to elevate everyday fashion, we present EVERYDAY wear range - Comfortable & Affordable fashion 24/7</p>
                                 <div className="pt-10">
-                                    <NavLink to="/products?category=all&color=all&page=1&limit=30" className={buttonVariants({ size: "lg", variant: "outline" })}>Shop Now</NavLink>
+                                    <NavLink to="/product" className={buttonVariants({ size: "lg", variant: "outline" })}>Shop Now</NavLink>
                                 </div>
                             </div>
                         </div>
