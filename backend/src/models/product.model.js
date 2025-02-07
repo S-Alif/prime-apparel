@@ -36,12 +36,6 @@ const productSchema = new mongoose.Schema({
         default: 0,
         min: 0
     },
-    currentRating: {
-        type: mongoose.Schema.Types.Double,
-        default: 0,
-        min: 0,
-        max: 5
-    },
     published: {
         type: Boolean,
         default: false

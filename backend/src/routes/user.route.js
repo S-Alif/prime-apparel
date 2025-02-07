@@ -1,6 +1,7 @@
 import express from 'express'
 import userController from '../controllers/user.controller.js'
 import orderController from '../controllers/order.controller.js'
+import reviewController from '../controllers/review.controller.js'
 
 const router = express.Router()
 
@@ -29,6 +30,11 @@ const routeList = [
         path: '/invoice/:orderId',
         method: 'get',
         controller: orderController.getOrderById
+    },
+    {
+        path: '/review',
+        method: 'post',
+        controller: reviewController.postReview
     },
 ]
 

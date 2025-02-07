@@ -4,6 +4,7 @@ import categoryController from '../controllers/category.controller.js'
 import colorController from '../controllers/colors.controller.js'
 import sizeController from '../controllers/size.controller.js'
 import productController from '../controllers/product.controller.js'
+import reviewController from '../controllers/review.controller.js'
 
 const router = express.Router()
 
@@ -78,6 +79,11 @@ const routeList = [
         path: '/products/images/:productId',
         method: 'get',
         controller: productController.getImages
+    },
+    {
+        path: '/products/review',
+        method: 'get',
+        controller: reviewController.getReviews
     }
 ]
 

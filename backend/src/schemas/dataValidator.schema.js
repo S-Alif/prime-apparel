@@ -80,6 +80,13 @@ const validator = {
         shippingAddress: Joi.string().min(10).max(300).required(),
         paymentMethod: Joi.string().valid("cash on delivery", "online")
     }),
+
+    reviewSchema: Joi.object({
+        product: Joi.string().min(24).max(24).required(),
+        rating: Joi.number().greater(0).less(6).required(),
+        comment: Joi.string().max(300).required(),
+        type: Joi.string().valid("product", "site")
+    })
 }
 
 export default validator
