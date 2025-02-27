@@ -67,6 +67,16 @@ const routes = [
             }
         ]
     },
+    {
+        path: "/user",
+        element: <UserLayout secured={true} />,
+        children: [
+            {
+                index: true,
+                
+            }
+        ]
+    },
     // admin routes
     {
         path: adminPath,

@@ -23,6 +23,12 @@ export const publicRoutes = {
     products: `${baseUrl}/api/v1/${publicEndpoint}/products`,
     productVariation: `${baseUrl}/api/v1/${publicEndpoint}/products/variation`,
     productImages: `${baseUrl}/api/v1/${publicEndpoint}/products/images`,
+    reviews: `${baseUrl}/api/v1/${publicEndpoint}/reviews`,
+}
+
+export const userRoutes = {
+    profile: "",
+    review: `${baseUrl}/api/v1/${userEndpoint}/review`
 }
 
 export const adminRoutes = {

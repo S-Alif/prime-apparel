@@ -2,8 +2,10 @@ import { useState } from "react"
 import StarRatings from "react-star-ratings"
 import { Textarea } from "../ui/textarea"
 import { Button } from "../ui/button"
-import { infoToast } from "@/helpers/toasts"
+import { infoToast, successToast } from "@/helpers/toasts"
 import UserStore from "@/stores/userStore"
+import apiHandler from "@/api/apiHandler"
+import { postMethod, userRoutes } from "@/constants/apiConstants"
 
 
 const ReviewForm = ({ productId = null }) => {
@@ -13,7 +15,7 @@ const ReviewForm = ({ productId = null }) => {
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState("")
 
-    const submitReview = () => {
+    const submitReview = async () => {
         if (comment.trim().length <= 5 || comment.trim().length >= 300) {
             return infoToast("Comment length should be between 5 - 300 characters")
         }
@@ -24,6 +26,10 @@ const ReviewForm = ({ productId = null }) => {
             ...(productId && { product: productId}),
             type: productId ? "product" : "site"
         }
+
+        let result = await apiHandler(userRoutes.review, postMethod, data)
+        if(!result) return
+        successToast("Review submitted")
     }
 
     return (
@@ -50,7 +56,7 @@ const ReviewForm = ({ productId = null }) => {
                 />
                 <Button 
                     size="lg"
-                    disabled={rating == 0 || (user == null || user?.role != 1999)}
+                    disabled={rating == 0 || (user == null || user?.role != 2024)}
                     onClick={submitReview}
                     className="mt-10"
                 >

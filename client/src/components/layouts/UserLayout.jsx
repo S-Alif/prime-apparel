@@ -9,7 +9,7 @@ import { getMethod, publicRoutes } from "@/constants/apiConstants"
 import productSpecStore from "@/stores/productSpecStore"
 
 
-const UserLayout = ({ admin = false }) => {
+const UserLayout = ({ admin = false, secured = false }) => {
 
   const {user, sidebarActive, toggleSidebar} = userStore()
   const { addCategories, addColors, addSizes, setNewArrivals, setFeaturedProducts } = productSpecStore()
@@ -49,7 +49,7 @@ const UserLayout = ({ admin = false }) => {
   }, [])
 
   // auth checks here
-  if (admin && !user) { //admin auth
+  if ((admin && !user) || (secured && !user)) { //admin and regular auth
     return <Navigate to={"/login"} />
   }
 
