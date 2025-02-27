@@ -28,8 +28,6 @@ const DisplaySingleProduct = ({
         quantity: 0
     })
 
-    console.log(productSelection)
-
     const carouselRef = useRef(null)
 
     // show the number of the image showing in the carousel
@@ -152,7 +150,7 @@ const DisplaySingleProduct = ({
                                 <div className="flex gap-3 items-center">
                                     <h4 className="text-[17px] xl:text-xl font-medium">Product color : </h4>
                                     <NavLink
-                                        to={`/product?category=all&color=${product?.color?._id}&limit=30&page=1`}
+                                        to={`/product?color=${product?.color?._id}`}
                                         className={buttonVariants({ size: "icon" })}
                                         style={{
                                             background: product?.color?.colorValue

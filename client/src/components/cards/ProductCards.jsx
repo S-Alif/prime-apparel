@@ -22,7 +22,7 @@ const ProductCards = ({ product }) => {
                 <div>
                     <NavLink to={`/product/${product?._id}`}><h4 className="text-[17px] font-medium">{product.name}</h4></NavLink>
                     <NavLink
-                        to={`/product?category=${product?.category?._id}&color=all&limit=30&page=1`}
+                        to={`/product?category=${product?.category?._id}`}
                         className="text-gray-400 mt-2"
                     >
                         {product?.category?.name}

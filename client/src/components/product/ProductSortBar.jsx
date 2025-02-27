@@ -14,7 +14,7 @@ const ProductSortBar = ({sideBar = false, toogleSideBar}) => {
     let productColor = searchParams.get("color") || "all"
 
     return (
-        <section className={`w-[300px] h-[calc(100vh-90px)] top-[90px] ${sideBar ? "left-0" : "-left-[350px]"} fixed bg-white transition-all duration-300 px-6 z-30 border-r overflow-y-auto`}>
+        <section className={`w-[330px] h-[calc(100vh-90px)] top-[90px] ${sideBar ? "left-0" : "-left-[350px]"} fixed bg-white transition-all duration-300 px-6 z-30 border-r overflow-y-auto`}>
             <div className="h-full">
                 <h3 className="text-xl py-4 flex justify-between border-b">
                     <span>Filter</span>

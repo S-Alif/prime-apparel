@@ -28,7 +28,7 @@ const App = () => {
                         <h3 className="text-[78px] py-5 font-bold text-white">Find Best Deals</h3>
                         <p className="text-[32px] text-white">Cool / Comfy / Colorful</p>
                         <div className="pt-10">
-                            <NavLink to="/products?category=all&color=all&page=1&limit=30" className={buttonVariants({size: "lg", variant: "outline"})}>Shop Now</NavLink>
+                            <NavLink to="/product" className={buttonVariants({size: "lg", variant: "outline"})}>Shop Now</NavLink>
                         </div>
                     </div>
                 </div>

@@ -25,20 +25,22 @@ const DisplayProducts = () => {
     let page = parseInt(searchParams.get("page") || "1", 10)
     let limit = 40
 
+    const fetchProducts = async (currentPage) => {
+        setLoading(true)
+        let result = await apiHandler(`${publicRoutes.products}?category=${productCategory}&color=${productColor}&limit=${limit}&page=${currentPage}`, getMethod)
+        if (!result) return
+        setProducts(result.data.products)
+        setTotalProducts(result.data.totalProducts)
+        setTimeout(() => setLoading(false), 1000)
+    }
+
     // fetch products
     useEffect(() => {
-        (async () => {
-            setLoading(true)
-            let result = await apiHandler(`${publicRoutes.products}?category=${productCategory}&color=${productColor}&limit=${limit}&page=${page}`, getMethod)
-            if(!result) return
-            setProducts(result.data.products)
-            setTotalProducts(result.data.totalProducts)
-            setSearchParams(prev => {
-                return { ...Object.fromEntries(prev), page: 1 }
-            })
-            setTimeout(() => setLoading(false), 1000)
-        })()
-    }, [productCategory, productColor, page])
+        setSearchParams(prev => {
+            return { ...Object.fromEntries(prev), page: 1 }
+        }, {replace: true})
+        fetchProducts(1)
+    }, [productCategory, productColor])
 
 
     return (
@@ -50,11 +52,11 @@ const DisplayProducts = () => {
             <SectionUsers
                 sectionId="display-product-cards"
                 sectionTtitle="Our Products"
-                sectionClassNames={`relative ${sidebarActive ? "lg:pl-[300px]" : ""} transition-all duration-300`}
+                sectionClassNames={`relative ${sidebarActive ? "lg:pl-[330px]" : ""} transition-all duration-300`}
                 loading={loading}
                 loadingFallback={<CardLoader numberOfCards={11} container={false} />}
             >
-
+                {/* filter toggle button */}
                 <div className="absolute top-[55px] right-0 -translate-x-2 lg:translate-x-[-50%]">
                     <Toggle 
                         size="lg"
@@ -67,7 +69,9 @@ const DisplayProducts = () => {
                         <span className="hidden lg:block">Filter</span> <span><ListFilter /></span>
                     </Toggle>
                 </div>
-                <div className={`grid grid-cols-2 gap-4 md:grid-cols-2 lg:gap-5 xl:gap-10 ${sidebarActive ? "lg:grid-cols-2 xl:grid-cols-4" : "lg:grid-cols-4 xl:grid-cols-5"} transition-all duration-300`}>
+
+                {/* product cards */}
+                <div className={`grid grid-cols-2 gap-4 md:grid-cols-2 lg:gap-5 xl:gap-10 ${sidebarActive ? "lg:grid-cols-3 xl:grid-cols-4" : "lg:grid-cols-4 xl:grid-cols-5"} transition-all duration-300`}>
                     {
                         products.length == 0 &&
                         <div className="pt-10"><p className="text-2xl">No products found</p></div>
@@ -89,7 +93,8 @@ const DisplayProducts = () => {
                             onPageChange={(page) => {
                                 setSearchParams(prev => {
                                     return { ...Object.fromEntries(prev), page: page }
-                                })
+                                }, {replace: true})
+                                fetchProducts(page)
                             }}
                         />
                     </div>
