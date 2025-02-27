@@ -1,7 +1,10 @@
+import ReviewForm from "../review/ReviewForm"
 
-const ProductReview = ({productId, isOpen = false}) => {
+const ProductReview = ({productId = null, isOpen = false}) => {
   return (
-    <div>ProductReview</div>
+    <div>
+      <ReviewForm productId={productId} />
+    </div>
   )
 }
 
