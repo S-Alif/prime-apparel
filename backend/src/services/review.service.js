@@ -67,27 +67,31 @@ const reviewService = {
         let skip = (page - 1) * limit
 
         let sort = req.query?.sortByRating
-        let sortStage = {createdAt: -1}
-        if(sort && sort == "dsc") sortStage.rating = -1
-        if((!role || role != roles.admin) || (sort && sort == "asc")) sortStage.rating = 1
+        let sortStage = { createdAt: -1 }
+        if (sort && sort == "dsc") sortStage.rating = -1
+        if ((!role || role != roles.admin) || (sort && sort == "asc")) sortStage.rating = 1
 
-        // fetch data
-        let result = await reviewModel.find({ product: productId, type: req.query?.type })
-                        .sort(sortStage)
-                        .skip(skip)
-                        .limit(limit)
-                        .populate({
-                            path: "users",
-                            select: "fName lName"
-                        })
-                        .populate({
-                            path: "products",
-                            select: "name"
-                        })
+        let filterQuery = { comment: { $exists: true, $ne: "" } }
+        if (productId) filterQuery.product = productId
 
-        let count = await reviewModel.countDocuments({product: productId})
-        return new apiResponse(200, {reviews: result, totalReviews: count})
+        let result = await reviewModel.find(filterQuery)
+            .sort(sortStage)
+            .skip(skip)
+            .limit(limit)
+            .populate({
+                path: "user",
+                select: "fName lName"
+            })
+            .populate({
+                path: "product",
+                select: "name"
+            })
+
+        let count = await reviewModel.countDocuments(filterQuery)
+
+        return new apiResponse(200, { reviews: result, totalReviews: count })
     }
+
 }
 
 export default reviewService

@@ -82,9 +82,13 @@ const validator = {
     }),
 
     reviewSchema: Joi.object({
-        product: Joi.string().min(24).max(24).required(),
+        product: Joi.string().min(24).max(24).when("type", {
+            is: "product",
+            then: Joi.required(),
+            otherwise: Joi.optional()
+        }),
         rating: Joi.number().greater(0).less(6).required(),
-        comment: Joi.string().max(300).required(),
+        comment: Joi.string().max(300),
         type: Joi.string().valid("product", "site")
     })
 }

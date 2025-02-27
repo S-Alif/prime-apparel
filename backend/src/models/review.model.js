@@ -8,7 +8,7 @@ const reviewSchema = new mongoose.Schema({
     },
     product: {
         type: mongoose.Types.ObjectId,
-        required: true,
+        required: function(){return this.type == "product"},
         ref: "product",
     },
     rating: {
@@ -19,7 +19,7 @@ const reviewSchema = new mongoose.Schema({
     },
     comment: {
         type: String,
-        minlength: 20,
+        minlength: 5,
         maxlength: 300,
         trim: true
     },

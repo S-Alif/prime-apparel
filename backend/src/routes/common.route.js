@@ -81,7 +81,7 @@ const routeList = [
         controller: productController.getImages
     },
     {
-        path: '/products/review',
+        path: '/reviews',
         method: 'get',
         controller: reviewController.getReviews
     }

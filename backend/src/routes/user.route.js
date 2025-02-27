@@ -38,5 +38,9 @@ const routeList = [
     },
 ]
 
+routeList.forEach(route => {
+    router[route.method](route.path, route.controller)
+})
+
 
 export default router
